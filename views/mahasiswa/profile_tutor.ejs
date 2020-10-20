@@ -1,0 +1,75 @@
+<%- include ../templates/adminlte/header-nav.ejs %>
+<%- include ../templates/adminlte/sidebar_mahasiswa.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1> Nama Tutor BBQ </h1>
+        <ol class="breadcrumb">
+            <li><a href="/mahasiswa"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">Profile Tutor BBQ</li>
+        </ol>
+        <% if(alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+            <strong><%= alert.message %></strong>
+        </div>
+        <% } %>
+    </section>
+
+    <section class="content">
+    <% if (kelompok == null) { %>
+    <div class="callout callout-warning" style="margin-bottom: 0!important;">
+        <h4><i class="fa fa-info"></i> Note:</h4>
+        Jadwal dan Kelompok BBQ Kamu sedang di Proses, harap bersabar.
+    </div>
+    <% } else { %>
+    <!-- Main content -->
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row">
+                    <br>                    
+                        <div class="col-md-12" align="left">
+                            <table id="dataSiswa" class="table table-bordered table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Nama Tutor</strong>
+                                        </td>
+                                        <td><strong><%= kelompok.Tutor.nama %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Nama Astor</strong>
+                                        </td>
+                                        <td><strong><%= kelompok.Astor.nama %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Jenis Kelamin</strong>
+                                        </td>
+                                        <td><strong><%= kelompok.Tutor.jenisKelamin %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Nomor Tlp</strong>
+                                        </td>
+                                        <td><strong><%= kelompok.Tutor.nomorHp %></strong></td>
+                                    </tr>                                    
+                                </tbody>
+                            </table>
+                        </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.box-body -->
+
+        </div>
+        <% } %>    
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<%- include ../templates/adminlte/footer.ejs %>

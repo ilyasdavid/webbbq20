@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "",
+    "database": "db_bbq",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "rahasia",
+    "database": "db_bbq_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "gzwjlgdlbuizrr",
+    "password": "0be375fc901d1f20b9bc0186785cc2c7a539e25c3094a63a176bb3d32088f174",
+    "database": "dflfrm0pdgbhq1",
+    "host": "ec2-23-21-160-38.compute-1.amazonaws.com",
+    "dialect": "postgres"
+  }
+}

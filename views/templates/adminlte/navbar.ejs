@@ -1,0 +1,65 @@
+<header class="main-header">
+    <!-- Logo -->
+    <a href="<% if(user.role === "admin") { %> /admin <% } else if (user.role === "mahasiswa") { %> /mahasiswa <% } else if (user.role === "tutor") { %> /tutor <% } %>"
+        class="logo">
+
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>S</b>BBQ</span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg">SIAKAD<b> BBQ</b></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <% if (user.role === "mahasiswa") {%>
+                            <img src="/foto-peserta-bbq/<%= mahasiswa.foto %>" class="user-image" alt="User Image" />
+                        <% } else if (user.role === "admin") {%>
+                            <img src="/images/TI-RIO SANDI.JPG" class="user-image" alt="User Image" />
+                        <% } %>
+                        <span class="hidden-xs">                        
+                            <%= user.nama %>                        
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- User image -->
+                        <li class="user-header">
+                            <% if (user.role === "mahasiswa") {%>
+                                <img src="/foto-peserta-bbq/<%= mahasiswa.foto %>" class="img-circle" alt="User Image" />
+                            <% } else if (user.role === "admin") {%>
+                                <img src="/images/TI-RIO SANDI.JPG" class="img-circle" alt="User Image" />
+                            <% } %>                            
+
+                            <p>
+                                <% if (user.role === "mahasiswa") { %> <%= mahasiswa.nama %>
+                                <% } else if (user.role === "admin") { %> <%= user.nama %> <% } %>
+                                <small>
+                                    <% if (user.role === "mahasiswa") { %> <%= mahasiswa.Jurusan.namaJurusan %>
+                                    <% } else if (user.role === "admin") { %> <%= user.role %> <% } %>
+                                </small>
+                            </p>
+                        </li>
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            <% if (user.role === "mahasiswa") { %>
+                            <div class="pull-left">
+                                <a href="/mahasiswa/profile/<%= user.id %>" class="btn btn-default btn-flat">Profile</a>
+                            </div>
+                            <% } %>
+                            <div class="pull-right">
+                                <a href="/auth/signout" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>                
+            </ul>
+        </div>
+    </nav>
+</header>

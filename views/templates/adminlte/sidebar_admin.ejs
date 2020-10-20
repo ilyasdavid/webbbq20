@@ -1,0 +1,94 @@
+<% stuff = typeof stuff !== 'object' ? {} : stuff %>
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="/images/TI-RIO SANDI.JPG" class="img-circle" alt="User Image" />
+            </div>
+            <div class="pull-left info">
+                <p><%= user.nama %></p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>  
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MAIN NAVIGATION</li>
+            <li class="<% if ( stuff.url == "/admin" ) { %> active <% } %>">
+                <a href="/admin">
+                    <i class="fa fa-home"></i> <span>Home</span>
+                </a>
+            </li>
+            <li class="<% if ( stuff.url == "/admin/mahasiswa/view" || stuff.url == "/admin/mahasiswa/status" || stuff.url == "/admin/mahasiswa/nilai" || stuff.url == "/admin/mahasiswa/limit-mahasiswa" ) { %> treeview menu menu-open active <% } else { %> treeview menu <% } %>">
+                <a href="#">
+                    <i class="fa  fa-user"></i> <span>Mahasiswa</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="<% if ( stuff.url == "/admin/mahasiswa/view" ) { %> active <% } %>"><a
+                            href="/admin/mahasiswa/view"><i class="fa fa-circle-o"></i> Lihat Mahasiswa</a></li>
+                    <li class="<% if ( stuff.url == "/admin/mahasiswa/status" ) { %> active <% } %>"><a
+                            href="/admin/mahasiswa/status"><i class="fa fa-circle-o"></i> Status Mahasiswa</a>
+                    </li>
+                    <li class="<% if ( stuff.url == "/admin/mahasiswa/nilai" ) { %> active <% } %>"><a
+                            href="/admin/mahasiswa/nilai"><i class="fa fa-circle-o"></i> Nilai Mahasiswa</a>
+                    </li>
+                    <li class="<% if ( stuff.url == "/admin/mahasiswa/limit-mahasiswa" ) { %> active <% } %>"><a
+                        href="/admin/mahasiswa/limit-mahasiswa"><i class="fa fa-circle-o"></i> Pembatasan Mahasiswa</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="<% if ( stuff.url == "/admin/bbq/tutor" || stuff.url == "/admin/bbq/astor" || stuff.url == "/admin/bbq/jadwal" ) { %> treeview menu menu-open active <% } else { %> treeview menu <% } %>">
+                <a href="#">
+                    <i class="fa  fa-user-plus"></i> <span>BBQ</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="<% if ( stuff.url == "/admin/bbq/tutor" ) { %> active <% } %>"><a
+                            href="/admin/bbq/tutor"><i class="fa fa-circle-o"></i> Tutor BBQ</a></li>
+                    <li class="<% if ( stuff.url == "/admin/bbq/astor" ) { %> active <% } %>"><a
+                            href="/admin/bbq/astor"><i class="fa fa-circle-o"></i> Astor BBQ</a></li>                    
+                </ul>
+            </li>
+            
+            <li class="<% if ( stuff.url == `/admin/kelompok-bbq/ikhwan` || stuff.url == `/admin/kelompok-bbq/akhwat` || stuff.url == `/admin/kelompok-bbq/akhwat/` || stuff.url == `/admin/kelompok-bbq/ikhwan/`  || stuff.url == `/admin/kelompok-bbq/ikhwan/*` || stuff.url == `/admin/kelompok-bbq/akhwat/*` ) { %> treeview menu menu-open active <% } else { %> treeview menu <% } %>">
+                <a href="#">
+                    <i class="fa  fa-user-plus"></i> <span>Kelompok BBQ</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="<% if ( stuff.url == `/admin/kelompok-bbq/ikhwan` || stuff.url == `/admin/kelompok-bbq/ikhwan/` || stuff.url == `/admin/kelompok-bbq/ikhwan/*` ) { %> active <% } %>">
+                    <a href="/admin/kelompok-bbq/ikhwan"><i class="fa fa-circle-o"></i> Ikhwan</a></li>
+                    <li class="<% if ( stuff.url == `/admin/kelompok-bbq/akhwat` || stuff.url == `/admin/kelompok-bbq/akhwat/` || stuff.url == `/admin/kelompok-bbq/akhwat/*` ) { %> active <% } %>">
+                    <a href="/admin/kelompok-bbq/akhwat"><i class="fa fa-circle-o"></i> Akhwat</a></li>
+                </ul>
+            </li>
+
+            <li class="<% if ( stuff.url == "/admin/informasi/bbq" || stuff.url == "/admin/informasi/agenda" || stuff.url == "/admin/informasi/tutor" ) { %> treeview menu menu-open active <% } else { %> treeview menu <% } %>">
+                <a href="#">
+                    <i class="fa  fa-info"></i> <span>Informasi</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="<% if ( stuff.url == "/admin/informasi/bbq" ) { %> active <% } %>"><a
+                            href="/admin/informasi/bbq"><i class="fa fa-circle-o"></i> Informasi BBQ</a></li>
+                    <li class="<% if ( stuff.url == "/admin/informasi/agenda" ) { %> active <% } %>"><a
+                            href="/admin/informasi/agenda"><i class="fa fa-circle-o"></i> Informasi Agenda</a></li>
+                    <li class="<% if ( stuff.url == "/admin/informasi/tutor" ) { %> active <% } %>"><a
+                            href="/admin/informasi/tutor"><i class="fa fa-circle-o"></i> Informasi Tutor</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

@@ -1,0 +1,39 @@
+<!-- Modal Update Product-->
+<form role="form" id="edit_mahasiswa">
+  <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel">Edit Mahasiswa</h4>          
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="npm">NPM</label>
+            <input type="number" name="npm" class="form-control npm" placeholder="Masukan NPM" required>
+          </div>
+
+          <div class="form-group">
+            <label for="nama">Nama</label>
+            <input type="text" name="nama" class="form-control nama" placeholder="Masukan Nama" required>
+          </div>
+
+          <!-- select -->
+          <div class="form-group">
+              <label>Kelas</label>
+              <select required name="KelasId" id="KelasId" class="form-control KelasId">                
+                <% for(let i = 0; i < kelas.length; i++) { %>
+                  <option value=<%= kelas[i].id %>> <%= kelas[i].namaKelas %> </option>
+                <% } %>
+              </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" name="idMahasiswa" class="idMahasiswa">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" onclick="return checkLetter()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

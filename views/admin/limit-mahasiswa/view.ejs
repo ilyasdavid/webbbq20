@@ -1,0 +1,206 @@
+<%- include ../../templates/adminlte/header-nav.ejs %>
+<%- include ../../templates/adminlte/sidebar_admin.ejs %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+      <h1>
+          Pembatasan Mahasiswa
+      </h1>
+      <ol class="breadcrumb">
+          <li class="active"><a href="/admin"><i class="fa fa-home"></i> Home</a></li>
+          <li class="active"><a href="#"> Pembatasan Mahasiswa</a></li>
+      </ol>      
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <div class="box">
+          <!-- /.box-header -->
+          <div class="box-header">
+            <h3 class="box-title">Data Mahasiswa BBQ</h3>
+          </div>
+
+          <div class="box-body">
+            <div style="margin: 0 20px 20px 20px;">
+              <!-- <button class="btn btn-success">Tambah</button> -->
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
+                Tambah
+              </button>
+            </div>
+            <table id="limit-mahasiswa" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th style="text-align: center">No</th>
+                  <th style="text-align: center">NPM</th>
+                  <th style="text-align: center">Nama</th>
+                  <th style="text-align: center">Kelas</th>
+                  <th style="text-align: center">Dosen</th>
+                  <th style="text-align: center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (let i = 0; i < limitMahasiswa.length; i++ ) { %>
+                <tr>
+                  <td><%= i + 1 %></td>
+                  <td><%= limitMahasiswa[i].npm %></td>
+                  <td><%= limitMahasiswa[i].nama %></td>
+                  <td>
+                    <%= limitMahasiswa[i].Kela.namaKelas %>                    
+                  </td> 
+                  <td>
+                    <%= limitMahasiswa[i].Kela.Dosen.nama %>
+                  </td>
+                  <td style="text-align: center">
+                    <a href="javascript:void(0);" type="button" class="btn btn-success btn-sm edit"
+                      data-npm="<%= limitMahasiswa[i].npm %>" data-nama="<%= limitMahasiswa[i].nama %>" data-idmahasiswa="<%= limitMahasiswa[i].id %>"
+                      data-kelasid=<%= limitMahasiswa[i].KelasId %> data-namakelas="<%= limitMahasiswa[i].Kela.namaKelas %>">
+                      <span class="glyphicon glyphicon-pencil"></span>
+                      Edit
+                    </a>
+                    <button class="btn btn-danger btn-sm" onclick="delete_limit_mahasiswa(`<%= limitMahasiswa[i].id %>`)"
+                      data-id="<%= limitMahasiswa[i].id %>">
+                      <span class="glyphicon glyphicon-trash"></span>
+                      Delete
+                    </button>                    
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+
+
+<!-- iclude modal add -->
+<%- include add_modal.ejs %>
+
+<!-- include modal edit -->
+<%- include edit_modal.ejs %>
+
+<%- include ../../templates/adminlte/footer.ejs %>
+<!-- page script -->
+<script>
+  $(document).ready(function () {
+    // datatable
+    $('#limit-mahasiswa').DataTable();      
+
+    // function simpan
+    $('#simpan_mahasiswa').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/admin/mahasiswa/limit-mahasiswa/create",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {          
+          swal({
+            title: "Success",
+            text: "Success Tambah Data Mahasiswa",
+            icon: "success",
+            button: "Oke",
+          }).then(suksesTambah => {            
+            window.location.assign(`/admin/mahasiswa/limit-mahasiswa`);
+          }); 
+        },
+      })
+    });
+
+    // function edit
+    $('#edit_mahasiswa').on('submit', function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/admin/mahasiswa/limit-mahasiswa/update",
+        method: "POST",
+        data: $(this).serialize(),
+        success: function () {
+          swal({
+            title: "Success",
+            text: "Success Update Data Mahasiswa",
+            icon: "success",
+            button: "Oke",
+          }).then(suksesUpdate => {            
+            window.location.assign(`/admin/mahasiswa/limit-mahasiswa`);
+          }); 
+        },
+      })
+    });
+  });
+
+  // fungsi cek nama
+  function checkLetter()
+  {
+      var validasiHuruf = /^[a-zA-Z ]+$/;
+      var namaKota = document.getElementById("nama");
+      
+      if (!namaKota.value.match(validasiHuruf)) {
+        swal({
+              title: "Warning",
+              text: "Nama Mahasiswa harus Huruf!",
+              icon: "warning",
+          });
+        return false;
+      }else{
+        return true;
+      }
+  }
+
+  // Delete data limit mahasiswa
+  function delete_limit_mahasiswa(id) {
+    const idMahasiswa = id;
+    swal({
+      title: "Yakin Ingin Menghapus Data Mahasiswa ini?",
+      text: "Data yang dihapus, tidak bisa kembali lagi.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        swal({
+            title: "Success",
+            text: "Success Delete Data Mahasiswa",
+            icon: "success",
+            button: "Oke",
+          }).then(suksesDelete => {
+            window.location.assign(`/admin/mahasiswa/limit-mahasiswa/delete/${idMahasiswa}`);
+          });        
+      }
+    });
+  }
+
+  //showing data to edit modal      
+  $('#limit-mahasiswa').on('click', '.edit', function () {
+    let idMahasiswa = $(this).data('idmahasiswa');
+    let npm = $(this).data('npm');
+    let nama = $(this).data('nama');    
+    let KelasId = $(this).data('kelasid');
+    let namaKelas = $(this).data('namakelas');
+    
+    // let mySelect = document.getElementById('KelasId');
+    // for(let i, j = 0; i = mySelect.options[j]; j++) {
+    //     if(i.value == KelasId) {
+    //         mySelect.selectedIndex = j;
+    //         break;
+    //     }
+    // }
+
+    $('#EditModal').modal('show');
+    $('.npm').val(npm);
+    $('.nama').val(nama);
+    $("select").val(KelasId);
+    // $('.KelasId').val(KelasId);
+    $('.idMahasiswa').val(idMahasiswa);
+  });
+  
+</script>

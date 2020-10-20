@@ -1,0 +1,149 @@
+<%- include ../templates/adminlte/header-nav.ejs %>
+<%- include ../templates/adminlte/sidebar_mahasiswa.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1> Halaman Profile Mahasiswa </h1>
+        <ol class="breadcrumb">
+            <li><a href="/mahasiswa"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">Profile</li>
+        </ol>
+        <% if(alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+            <strong><%= alert.message %></strong>
+        </div>
+        <% } %>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <div class="pull-left">
+
+                    <strong> Profile Akun </strong>
+
+                </div>
+                <div class="pull-right">
+
+                    <a href="/mahasiswa/profile/edit/<%= user.id %>" class="btn btn-primary btn-xs">
+                        <span class="fa fa-gear"></span> Ubah Profile
+                    </a>
+                </div>
+            </div><!-- /.box-header -->
+
+            <div class="box-body">
+                <div class="row">
+                    <br>
+                    <div class="col-md-12" style="margin-left: -2%">
+                        <div class="col-md-3">
+                            <p align="center">
+                                <img src="/foto-peserta-bbq/<%= mahasiswa.foto %>" alt=""
+                                    style="width:220px; height:260px">
+                                <a class="users-list-name" href="#"><%= mahasiswa.nama %></a>
+                                <span class="users-list-date">Status Siswa : <%= mahasiswa.status %></span>
+                            </p>
+                        </div><!-- /.col -->
+                        <div class="col-md-9" align="left">
+                            <table id="dataSiswa" class="table table-bordered table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">NPM</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.npm %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Nama</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.nama %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Tanggal Lahir</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.tglLahir %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Alamat</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.alamat %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Jurusan</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.Jurusan.namaJurusan %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Membaca Qur'an</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.bacaQuran %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Jenis Kelamin</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.jenisKelamin %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">No Hp</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.nomorHp %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Email</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.User.email %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Kelas</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.Kela.namaKelas %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Dosen</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.Dosen.nama %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-top-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Status</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.status %></strong></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div><!-- /.col -->
+                    </div><!-- /.col md-12 -->
+                </div><!-- /.row -->
+            </div><!-- /.box-body -->
+
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<%- include ../templates/adminlte/footer.ejs %>

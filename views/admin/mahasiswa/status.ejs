@@ -1,0 +1,193 @@
+<%- include ../../templates/adminlte/header-nav.ejs %>
+<%- include ../../templates/adminlte/sidebar_admin.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Status Mahasiswa
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="/admin"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active"><a href="#"> Status Mahasiswa</a></li>
+        </ol>
+        <% if(alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+            <strong><%= alert.message %></strong>
+        </div>
+        <% } %>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-status-peserta" data-toggle="tab">Lihat status peserta</a></li>
+                        <li><a href="#tab-status-peserta-aktif" data-toggle="tab">Lihat peserta aktif</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="tab-status-peserta">
+                            <div class="box-body table-responsive no-padding">
+                                <table id="tableStatusPesertaNonAktif" class="table table-hover">
+                                    <thead>
+                                        <th>No.</th>
+                                        <th>NPM</th>
+                                        <th>Nama</th>
+                                        <th>Jurusan</th>
+                                        <th>Kelas</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </thead>
+                                    <tbody>
+                                        <% for (var i = 0; i < mahasiswasNonAktif.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasNonAktif[i].npm %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasNonAktif[i].nama %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasNonAktif[i].Jurusan.namaJurusan %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasNonAktif[i].Kela.namaKelas %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasNonAktif[i].jenisKelamin %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasNonAktif[i].status %>
+                                            </td>
+                                            <td>
+                                                <button class="btn bg-green btn-flat btn-xs"
+                                                    onclick="aktifkanPeserta(`<%= mahasiswasNonAktif[i].id %>`)"
+                                                    data-id="<%= mahasiswasNonAktif[i].id %>">
+                                                    <i class="fa fa-check-square-o"></i> Aktifkan
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab-status-peserta-aktif">
+                            <div class="box-body table-responsive no-padding">
+                                <table id="tableStatusPesertaAktif" class="table table-hover">
+                                    <thead>
+                                        <th>No.</th>
+                                        <th>NPM</th>
+                                        <th>Nama</th>
+                                        <th>Jurusan</th>
+                                        <th>Kelas</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </thead>
+                                    <tbody>
+                                        <% for (var i = 0; i < mahasiswasAktif.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasAktif[i].npm %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasAktif[i].nama %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasAktif[i].Jurusan.namaJurusan %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasAktif[i].Kela.namaKelas %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasAktif[i].jenisKelamin %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswasAktif[i].status %>
+                                            </td>
+                                            <td>
+                                                <button class="btn bg-red btn-flat btn-xs"
+                                                    onclick="nonAktifkanPeserta(`<%= mahasiswasAktif[i].id %>`)"
+                                                    data-id="<%= mahasiswasAktif[i].id %>">
+                                                    <i class="fa fa-check-square-o"></i> Non Aktifkan
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- /.nav-tabs-custom -->
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<%- include ../../templates/adminlte/footer.ejs %>
+<script>
+    $(document).ready(function () {
+        $("#tableStatusPesertaAktif").DataTable();
+        $("#tableStatusPesertaNonAktif").DataTable();
+    });
+</script>
+
+<script type="text/javascript">
+    function aktifkanPeserta(id) {
+        let idPeserta = id;
+
+        swal({
+            title: "Yakin Ingin Mengaktifkan Peserta ini?",
+            text: "Siswa yang sudah aktif hanya yang sudah melakukan registrasi",
+            icon: "warning",
+            buttons: true
+        }).then(willAktivate => {
+            if (willAktivate) {
+                window.location.assign(`/admin/mahasiswa/aktifasi/${idPeserta}`);
+            }
+        });
+    }
+    function nonAktifkanPeserta(id) {
+        let idPeserta = id;
+
+        swal({
+            title: "Yakin Ingin Menonaktifkan Peserta ini?",
+            text: "Siswa yang non aktif adalah yang belum melakukan registrasi",
+            icon: "warning",
+            buttons: true
+        }).then(willNonAktivate => {
+            if (willNonAktivate) {
+                window.location.assign(`/admin/mahasiswa/nonaktifasi/${idPeserta}`);
+            }
+        });
+    }    
+</script>
+<script type="text/javascript">
+    function tampilkanNamaSiswa(id) {
+        let idMahasiswa = id;
+
+        swal({
+            title: "Good job!",
+            text: `You clicked Siswa ID = ${idMahasiswa}`,
+            icon: "success",
+            button: "Siap!",
+        });
+
+    }    
+</script>

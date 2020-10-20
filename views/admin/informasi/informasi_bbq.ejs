@@ -1,0 +1,170 @@
+<%- include ../../templates/adminlte/header-nav.ejs %>
+<%- include ../../templates/adminlte/sidebar_admin.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Informasi BBQ
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="/admin"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active"><a href="#"> Informasi BBQ</a></li>
+        </ol>
+        <% if(action === "view" && alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+            <strong><%= alert.message %></strong>
+        </div>
+        <% } %>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <% if(action === "view") { %>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#lihat-info-bbq" data-toggle="tab">Lihat Informasi BBQ</a></li>
+                        <li><a href="#tambah-info-bbq" data-toggle="tab">Tambah Informasi BBQ</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="lihat-info-bbq">
+                            <div class="box-body table-responsive no-padding">
+                                <table id="tableInformasiBBQ" class="table table-hover">
+                                    <thead>
+                                        <th>No.</th>
+                                        <th>Judul</th>
+                                        <th>Deskripsi</th>
+                                        <th style="text-align: center">Aksi</th>
+                                    </thead>
+                                    <tbody>
+                                        <% for (var i = 0; i < informasiBBQ.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
+                                            <td>
+                                                <%= informasiBBQ[i].judul %>
+                                            </td>
+                                            <td>
+                                                <%= informasiBBQ[i].deskripsi %>
+                                            </td>
+                                            <td style="text-align: center">
+                                                <div class="btn-group-vertical">
+                                                    <a class="btn btn-warning btn-xs"
+                                                        href="/admin/informasi_bbq/edit/<%= informasiBBQ[i].id %>">
+                                                        <span class="glyphicon glyphicon-edit"></span>
+                                                        Edit
+                                                    </a>
+                                                    <button class="btn btn-danger btn-xs"
+                                                        onclick="deleteInformasiBBQ(`<%= informasiBBQ[i].id %>`)"
+                                                        data-id="<%= informasiBBQ[i].id %>">
+                                                        <span class="glyphicon glyphicon-trash"></span>
+                                                        Delete
+                                                    </button>
+                                                </div>                                                
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tambah-info-bbq">
+                            <form class="form-horizontal" action="/admin/informasi_bbq/create" method="post">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label>Judul Informasi BBQ</label>
+                                        <input type="text" class="form-control" name="judul" required
+                                            placeholder="Masukkan Judul Informasi BBQ">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Deskripsi</label>
+                                        <textarea class="textarea-deskripsi" placeholder="Place some text here"
+                                            name="deskripsi"
+                                            style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"
+                                            required></textarea>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <% } else { %>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#edit-info-bbq" data-toggle="tab">Edit Informasi BBQ</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="edit-info-bbq">
+                            <form class="form-horizontal" action="/admin/informasi_bbq/edit/<%= informasiBBQ.id %>"
+                                method="post">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label>Judul Informasi BBQ</label>
+                                        <input type="text" class="form-control" name="judul" required
+                                            placeholder="Masukkan Judul Informasi BBQ"
+                                            value="<%= informasiBBQ.judul %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Deskripsi</label>
+                                        <textarea class="textarea-deskripsi" placeholder="Place some text here"
+                                            name="deskripsi"
+                                            style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"
+                                            required><%= informasiBBQ.deskripsi %>
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <% } %>
+                <!-- /.nav-tabs-custom -->
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<%- include ../../templates/adminlte/footer.ejs %>
+<script>
+    $(function () {
+        //bootstrap WYSIHTML5 - text editor
+        // $('.textarea-deskripsi').wysihtml5()
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $("#tableInformasiBBQ").DataTable()
+    })
+</script>
+<script type="text/javascript">
+    function deleteInformasiBBQ(id) {
+        let idInformasiBBQ = id;
+
+        swal({
+            title: "Yakin Ingin Menghapus Informasi BBQ ini?",
+            text: "Data yang dihapus, tidak bisa kembali lagi.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then(willDelete => {
+            if (willDelete) {
+                window.location.assign(`/admin/informasi_bbq/delete/${idInformasiBBQ}`)
+            }
+        })
+    }    
+</script>

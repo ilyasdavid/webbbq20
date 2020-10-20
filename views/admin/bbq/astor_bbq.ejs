@@ -1,0 +1,210 @@
+<%- include ../../templates/adminlte/header-nav.ejs %>
+<%- include ../../templates/adminlte/sidebar_admin.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Astor BBQ
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="/admin"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active"><a href="#"> Astor BBQ</a></li>
+        </ol>
+        <% if(action === "view" && alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+            <strong><%= alert.message %></strong>
+        </div>
+        <% } %>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <% if(action === "view") { %>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-lihat-astor" data-toggle="tab">Lihat Astor</a></li>
+                        <li><a href="#tab-input-astor" data-toggle="tab">Input Astor</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="tab-lihat-astor">
+                            <div class="box-body table-responsive no-padding">
+                                <table id="tableAstor" class="table table-hover">
+                                    <thead>
+                                        <th>No.</th>
+                                        <th>Nama Tutor</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>No. Telpon</th>
+                                        <th style="text-align: center">Aksi</th>
+                                    </thead>
+                                    <tbody>
+                                        <% for (var i = 0; i < astors.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
+                                            <td>
+                                                <%= astors[i].nama %>
+                                            </td>
+                                            <td>
+                                                <%= astors[i].jenisKelamin %>
+                                            </td>
+                                            <td>
+                                                <%= astors[i].nomorHp %>
+                                            </td>
+                                            <td style="text-align: center">
+                                                <a class="btn btn-warning btn-xs"
+                                                    href="/admin/astor/edit/<%= astors[i].id %>">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                    Edit
+                                                </a>
+                                                <button class="btn btn-danger btn-xs" onclick="deleteAstor(`<%= astors[i].id %>`)"
+                                                    data-id="<%= astors[i].id %>">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab-input-astor">
+                            <!-- form input astor -->
+                            <form class="form-horizontal" action="/admin/astor/create" method="post">
+                                <div class="box-body">
+                                    <!-- Nama -->
+                                    <div class="form-group">
+                                        <label for="inputNama" class="col-sm-2 control-label">Nama</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="nama" type="text" class="form-control" id="inputNama"
+                                                placeholder="Nama" />
+                                        </div>
+                                    </div>
+                                    <!-- Jenis Kelamin -->
+                                    <div class="form-group">
+                                        <label for="inputJenisKelamin" class="col-sm-2 control-label">Jenis
+                                            Kelamin</label>
+
+                                        <div class="col-sm-10">
+                                            <select required name="jenisKelamin" class="form-control">
+                                                <option value="">--- Pilih Jenis Kelamin ---</option>
+                                                <option value="Pria">Pria</option>
+                                                <option value="Wanita">Wanita</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- No. HP -->
+                                    <div class="form-group">
+                                        <label for="inputNoHp" class="col-sm-2 control-label">No. HP</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="nomorHp" type="number" class="form-control"
+                                                id="inputNoHp" placeholder="Nomor HP" />
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary pull-left">
+                                            Simpan
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- /.nav-tabs-custom -->
+                <% } else { %>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li><a href="#tab-edit-astor" data-toggle="tab">Edit Astor</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="tab-edit-astor">
+                            <!-- form edit astor -->
+                            <form class="form-horizontal" action="/admin/astor/edit/<%= astor.id %>" method="post">
+                                <div class="box-body">
+                                    <!-- Nama -->
+                                    <div class="form-group">
+                                        <label for="inputNama" class="col-sm-2 control-label">Nama</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="nama" type="text" class="form-control" id="inputNama"
+                                                value="<%= astor.nama %>" />
+                                        </div>
+                                    </div>
+                                    <!-- Jenis Kelamin -->
+                                    <div class="form-group">
+                                        <label for="inputJenisKelamin" class="col-sm-2 control-label">Jenis
+                                            Kelamin</label>
+
+                                        <div class="col-sm-10">
+                                            <select required name="jenisKelamin" class="form-control">
+                                                <option value="<%= astor.jenisKelamin %>">--- <%= astor.jenisKelamin %>
+                                                    ---
+                                                </option>
+                                                <option value="Pria">Pria</option>
+                                                <option value="Wanita">Wanita</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- No. HP -->
+                                    <div class="form-group">
+                                        <label for="inputNoHp" class="col-sm-2 control-label">No. HP</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="nomorHp" type="number" class="form-control"
+                                                id="inputNoHp" value="<%= astor.nomorHp %>" />
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-info pull-left">
+                                            Simpan
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- /.nav-tabs-custom -->
+                <% } %>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<%- include ../../templates/adminlte/footer.ejs %>
+<script>
+    $(document).ready(function () {
+        $("#tableAstor").DataTable();
+    });
+</script>
+
+<script type="text/javascript">
+    function deleteAstor(id) {
+        let idAstor = id;
+
+        swal({
+            title: "Yakin Ingin Menghapus Data Astor ini?",
+            text: "Data yang dihapus, tidak bisa kembali lagi.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then(willDelete => {
+            if (willDelete) {
+                window.location.assign(`/admin/astor/delete/${idAstor}`);
+            }
+        });
+    }    
+</script>

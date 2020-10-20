@@ -1,0 +1,12 @@
+<footer class="main-footer no-print" style="
+text-align: center;">
+    <strong> <a
+            href="<% if(user.role === "admin") { %> /admin <% } else if (user.role === "mahasiswa") { %> /mahasiswa <% } else if (user.role === "tutor") { %> /tutor <% } else { %> / <% } %>">SIAKAD
+            BBQ</a> | Sistem Akademik Bina Baca Quran</strong>
+</footer>
+<!-- /wrapper -->
+</div>
+<%- include js.ejs %>
+</body>
+
+</html>

@@ -1,0 +1,151 @@
+<%- include ../templates/adminlte/header-nav.ejs %>
+<%- include ../templates/adminlte/sidebar_mahasiswa.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Jadwal dan Kelompok BBQ
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="/admin"><i class="fa fa-home"></i> Home</a></li>            
+            <li class="active"><a href="#">Jadwal dan Kelompok BBQ</a></li>
+        </ol>
+        <% if(alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+            <strong><%= alert.message %></strong>
+        </div>
+        <% } %>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+            <div class="row">
+                <div class="col-md-12">
+                <% if (kelompok == null) { %>
+                <div class="callout callout-warning" style="margin-bottom: 0!important;">
+                    <h4><i class="fa fa-info"></i> Note:</h4>
+                    Jadwal dan Kelompok BBQ Kamu sedang di Proses, harap bersabar.
+                </div>
+                <% } else { %>
+                    <div class="box box-primary">                        
+                        <div class="box-body">
+                            <div class="row"> 
+                            <br/>
+                                <div class="col-md-12" style="margin-left: 7%;">                                    
+                                    <div class="col-md-5">
+                                        <table border="0" width="100%">                   
+                                            <tbody>
+                                                <tr>
+                                                    <td width="30%"><strong>Nama Tutor</strong></td>  
+                                                    <td>: &nbsp;&nbsp; <%= kelompok.Tutor.nama %></td>                          
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Nama Astor</strong></td>
+                                                    <td>: &nbsp;&nbsp; <%= kelompok.Astor.nama %></td>
+                                                </tr>
+                                            </tbody>                      
+                                        </table>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <table border="0" width="100%">                   
+                                            <tbody>
+                                                <tr>
+                                                    <td width="30%"><strong>No Tlp</strong></td>  
+                                                    <td>: &nbsp;&nbsp; <%= kelompok.Tutor.nomorHp %></td>                          
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>No Tlp</strong></td>
+                                                    <td>: &nbsp;&nbsp; <%= kelompok.Astor.nomorHp %></td>
+                                                </tr>
+                                            </tbody>                      
+                                        </table>
+                                    </div>
+                                    <div class="col-md-3" align="left">
+                                        <table border="0" >                    
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="glyphicon glyphicon-home" id="btnPopover1" title="Tempat" data-toggle="tooltip"></span> <%= kelompok.tempat %></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="glyphicon glyphicon-time" id="btnPopover1" title="Jadwal" data-toggle="tooltip"></span> <%= kelompok.jadwal %></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+            
+                            </div><!-- /.row -->
+                            <hr/>
+                            <div class="col-md-12">
+                                    <div class="nav-tabs-custom">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#tab-daftar-peserta-bbq" data-toggle="tab">Daftar Peserta BBQ</a></li>                                            
+                                        </ul>
+                                        <div class="tab-content">                                        
+                                            <div class="active tab-pane" id="tab-daftar-peserta-bbq">
+                                                <div class="box-body table-responsive no-padding">
+                                                    <table id="tablePesertaIkhwanBBQKelompok" class="table table-hover">
+                                                        <thead>
+                                                            <th>No.</th>
+                                                            <th>NPM</th>
+                                                            <th>Nama</th>
+                                                            <th>Jurusan</th>
+                                                            <th>Kelas</th>
+                                                            <th>No. Tlp</th>
+                                                            <th style="text-align: center">Status</th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% if(kelompok.Mahasiswas != undefined || kelompok.Mahasiswas != null) { %>
+                                                            <% for (var i = 0; i < kelompok.Mahasiswas.length; i++) { %>
+                                                            <tr>
+                                                                <td>
+                                                                    <%= i+1 %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= kelompok.Mahasiswas[i].npm %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= kelompok.Mahasiswas[i].nama %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= kelompok.Mahasiswas[i].Jurusan.namaJurusan %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= kelompok.Mahasiswas[i].Kela.namaKelas%>
+                                                                </td>
+                                                                <td>
+                                                                    <%= kelompok.Mahasiswas[i].nomorHp %>
+                                                                </td>
+                                                                <td style="text-align: center">
+                                                                    <%= kelompok.Mahasiswas[i].status %>                                                                                                 
+                                                                </td>
+                                                            </tr>
+                                                            <% } %>
+                                                            <% } %>                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                        <!-- /.tab-content -->
+                                    </div>
+                                    <!-- /.nav-tabs-custom -->
+                                </div>                        
+                        </div>
+                    </div>
+                    <% } %>                
+                </div>
+            </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<%- include ../templates/adminlte/footer.ejs %>
+<script>
+    $(document).ready(function () {        
+        $("#tablePesertaIkhwanBBQKelompok").DataTable();
+    });
+</script>

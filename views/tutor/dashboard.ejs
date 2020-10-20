@@ -1,0 +1,407 @@
+<%- include ../templates/adminlte/header-top-nav.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <div class="container">
+        <section class="content">
+            <div class="nav-tabs-custom">
+            <% if(action === "dashboard") { %>
+                <ul class="nav nav-tabs">
+                    <li class="active" style="text-align: center">
+                        <a href="#dashboard" data-toggle="tab">
+                            <i class="fa fa-home fa-3x"></i><br>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li style="text-align: center">
+                        <a href="#view-peserta" data-toggle="tab">
+                            <i class="fa fa-user fa-3x"></i><br>
+                            Lihat Mahasiswa
+                        </a>
+                    </li>
+                    <li style="text-align: center">
+                        <a href="#input-nilai" data-toggle="tab">
+                            <i class="fa fa-list-alt fa-3x"></i><br>
+                            Input Nilai
+                        </a>
+                    </li>
+                    <li style="text-align: center">
+                        <a href="#keahlian-tutor" data-toggle="tab">
+                            <i class="fa fa-user-plus fa-3x"></i><br>
+                            Keahlian Tutor
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="dashboard">
+                        <!-- Content Header (Page header) -->
+                        <section class="content-header">
+                            <h1>
+                                Assalamu'alaikum Warahmatullah Wabarakatuh
+                            </h1>
+                        </section>
+                        <!-- Main content -->
+                        <section class="content">
+                            <div class="callout callout-info">
+                                <strong>
+                                    <p style="font-size: 14px;
+                                                            text-align: center;
+                                                            color: black;">
+                                        Pemberitahuan Kepada Tutor Jika Terdapat Pertanyaan atau Ada yang Belum
+                                        Jelas Bisa di Tanyakan Kepada Pengurus UKMI AR-Rahman
+                                    </p>
+                                </strong>
+                            </div>
+                            <!-- Informasi BBQ -->
+                            <div class="box box-default box-solid">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title"><strong>Informasi BBQ</strong></h3>
+                                </div>
+                                <% if(informasiBBQ.length > 0) { %>
+                                <% for (var i = 0; i < informasiBBQ.length; i++) { %>
+                                <div class="box box-default collapsed-box">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title"> <strong>
+                                                <%= i+1 %></strong>.
+                                            <%= informasiBBQ[i].judul %>
+                                        </h3>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <%= informasiBBQ[i].deskripsi %>
+                                    </div>
+                                </div>
+                                <% } %>
+                                <% } else { %>
+                                <div class="callout callout-warning">
+                                    <strong>
+                                        <p style="font-size: 14px;
+                                                                        text-align: center;
+                                                                        color: black;">
+                                            Belum ada Informasi seputar BBQ.
+                                        </p>
+                                    </strong>
+                                </div>
+                                <% } %>
+                            </div>
+                            <!-- Informasi Agenda Kegiatan -->
+                            <div class="box box-default box-solid">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title"><strong>Agenda Kegiatan</strong></h3>
+                                </div>
+                                <% if(informasiAgenda.length > 0) { %>
+                                <% for (var i = 0; i < informasiAgenda.length; i++) { %>
+                                <div class="box box-default collapsed-box">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title"> <strong>
+                                                <%= i+1 %></strong>.
+                                            <%= informasiAgenda[i].judul %>
+                                        </h3>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <%= informasiAgenda[i].deskripsi %>
+                                    </div>
+                                </div>
+                                <% } %>
+                                <% } else { %>
+                                <div class="callout callout-warning">
+                                    <strong>
+                                        <p style="font-size: 14px;
+                                                                            text-align: center;
+                                                                            color: black;">
+                                            Belum ada Informasi seputar Agenda Kegiatan.
+                                        </p>
+                                    </strong>
+                                </div>
+                                <% } %>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="tab-pane" id="view-peserta">
+                        <% if (kelompok.Mahasiswas.length == 0) { %>
+                            <div class="callout callout-warning" style="margin-bottom: 0!important;">
+                                <h4><i class="fa fa-info"></i> Note:</h4>
+                                Belum ada peserta bbq yang terdaftar, harap bersabar.
+                            </div>
+                        <% } else { %>
+                            <div class="box box-primary">                        
+                                <div class="box-body">                                    
+                                    <strong>Lihat Mahasiswa BBQ di Kelompok <%= kelompok.namaKelompok %></strong>
+                                    <hr/>
+                                    <div class="box-body table-responsive no-padding">
+                                        <table id="tablePesertaBBQKelompok" class="table table-hover">
+                                            <thead>
+                                                <th>No.</th>
+                                                <th>NPM</th>
+                                                <th>Nama</th>
+                                                <th>Jurusan</th>
+                                                <th>Kelas</th>
+                                                <th>No. Tlp</th>
+                                                <th style="text-align: center">Status</th>
+                                            </thead>
+                                            <tbody>
+                                                <% if(kelompok.Mahasiswas != undefined || kelompok.Mahasiswas != null) { %>
+                                                <% for (var i = 0; i < kelompok.Mahasiswas.length; i++) { %>
+                                                <tr>
+                                                    <td>
+                                                        <%= i+1 %>
+                                                    </td>
+                                                    <td>
+                                                        <%= kelompok.Mahasiswas[i].npm %>
+                                                    </td>
+                                                    <td>
+                                                        <%= kelompok.Mahasiswas[i].nama %>
+                                                    </td>
+                                                    <td>
+                                                        <%= kelompok.Mahasiswas[i].Jurusan.namaJurusan %>
+                                                    </td>
+                                                    <td>
+                                                        <%= kelompok.Mahasiswas[i].Kela.namaKelas%>
+                                                    </td>
+                                                    <td>
+                                                        <%= kelompok.Mahasiswas[i].nomorHp %>
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        <%= kelompok.Mahasiswas[i].status %>                                                                                                 
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                                <% } %>                                                            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>                    
+                    <div class="tab-pane" id="input-nilai">
+                        <% if (kelompok.Mahasiswas.length == 0) { %>
+                            <div class="callout callout-warning" style="margin-bottom: 0!important;">
+                                <h4><i class="fa fa-info"></i> Note:</h4>
+                                Belum ada peserta bbq yang terdaftar, harap bersabar.
+                            </div>
+                        <% } else { %>
+                            <div class="box box-primary">                        
+                                <div class="box-body">                                    
+                                    <strong>Nilai Peserta BBQ di Kelompok <%= kelompok.namaKelompok %></strong>
+                                    <hr/>
+                                    <form id="update_form">
+                                        <div align="left">
+                                            <input type="submit" name="multiple_update" id="multiple_update" class="btn btn-primary" value="Simpan Nilai" />
+                                        </div>
+                                        <br />
+                                        <div class="box-body table-responsive no-padding">
+                                            <table id="tablePesertaBBQKelompok" class="table table-hover">
+                                                <thead>
+                                                    <th>Ceklist</th>
+                                                    <th>No.</th>
+                                                    <th>NPM</th>
+                                                    <th>Nama</th>
+                                                    <th>Kehadiran</th>
+                                                    <th>Mutabaah</th>
+                                                    <th>MID</th>
+                                                    <th>Kegiatan</th>
+                                                    <th>UAS Praktek</th>
+                                                    <th>UAS Tertulis</th>
+                                                    <th>Total Nilai</th>
+                                                    <th>HM</th>
+                                                    <th>Keterangan</th>
+                                                </thead>
+                                                <tbody id="showDataNilaiMahasiswa">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="tab-pane" id="keahlian-tutor">
+                        <% if (keahlianTutor.length == 0) { %>                                        
+                            <div class="callout callout-danger" style="margin-bottom: 0!important;">
+                                <h4><i class="fa fa-info"></i> Note:</h4>
+                                Admin belum melengkapi data Keahlian Anda, segera hubungi Admin!
+                            </div>
+                        <% } else { %>
+                        <!-- Content Header (Page header) -->
+                        <section class="content-header">
+                            <h1>
+                                Keahlian Tutor
+                            </h1>
+                        </section>
+                        <section class="content">
+                            <table >
+                                <tbody>
+                                    <style>
+                                    #border {
+                                        border: 0px;
+                                        width: 100%;
+                                        max-height: 100%;
+                                    }
+                                    .allbox {
+                                        height: 40px;
+                                        width: 40px;
+                                        border: 2px solid #000000;
+                                        border-radius:50px;
+                                        display: block;
+                                        margin-right: 10px;
+                                    }
+                                    .box1 {
+                                        background: #2b78e4;
+                                    }
+                                    .box2 {
+                                        background: #ff9900;
+                                    }
+                                    .box3 {
+                                        background: #00ffff;
+                                    }
+                                    .box4 {
+                                        background: #ff3300;
+                                    }
+                                    .box5 {
+                                        background: #fffb00;
+                                    }
+                                    .box6 {
+                                        background: #ff00b3;
+                                    }
+                                    </style>                                    
+                                    <% for (let i = 0; i < keahlianTutor.length; i++) { %>
+                                        <tr>
+                                            <td class="allbox box<%=i+1%>"></td>
+                                            <td id="border">
+                                                <div class="box box-default box-solid">
+                                                    <div class="box-header with-border">
+                                                        <p class="box-title"><strong><%= keahlianTutor[i].keahlian %></strong></p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>    
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </section>
+                        <% } %> 
+                    </div>
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-view -->
+            <% } else { %>
+                <section class="content">
+                    <div class="callout callout-danger" style="margin-bottom: 0!important;">
+                        <h4><i class="fa fa-info"></i> Note:</h4>
+                        Admin belum melengkapi data Anda, segera hubungi Admin!
+                    </div>                        
+                </section>
+            <% } %>          
+        </section>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous">
+</script>
+<!-- /.content-wrapper -->
+<%- include ../templates/adminlte/footer.ejs %>
+<script>
+    $(document).ready(function () {        
+        $("#tablePesertaBBQKelompok").DataTable();
+
+        function fetch_data()
+        {
+            $.ajax({
+                url:`/tutor/nilaiMahasiswas/<%= kelompok.id %>`,
+                method:"GET",
+                dataType:"json",
+                success:function(data)
+                {
+                    var html = '';
+                    for(let i = 0; i < data.nilaiMahasiswas.length; i++)
+                    {
+                        html += '<tr>';
+                        html += '<td><input type="checkbox" id="'+data.nilaiMahasiswas[i].Mahasiswa.id+'" data-no="'+ (i+1) +'" data-npm="'+data.nilaiMahasiswas[i].Mahasiswa.npm+'" data-nama="'+data.nilaiMahasiswas[i].Mahasiswa.nama+'" data-absensi="'+data.nilaiMahasiswas[i].absensi+'" data-mutabaah="'+data.nilaiMahasiswas[i].mutabaah+'" data-mid="'+data.nilaiMahasiswas[i].mid+'" data-kegiatan="'+data.nilaiMahasiswas[i].kegiatan+'" data-uasp='+data.nilaiMahasiswas[i].uasP+' data-uast='+data.nilaiMahasiswas[i].uasT+' data-totalnilai='+data.nilaiMahasiswas[i].totalNilai+' data-hm="'+data.nilaiMahasiswas[i].hm+'" data-keterangan="'+data.nilaiMahasiswas[i].keterangan+'" class="check_box" /></td>';
+                        html += `<td> ${i + 1} </td>`;
+                        html += `<td> ${data.nilaiMahasiswas[i].Mahasiswa.npm} </td>`;
+                        html += `<td> ${data.nilaiMahasiswas[i].Mahasiswa.nama} </td>`;
+                        html += `<td> ${data.nilaiMahasiswas[i].absensi} </td>`;
+                        html += `<td> ${data.nilaiMahasiswas[i].mutabaah} </td>`;
+                        html += `<td> ${data.nilaiMahasiswas[i].mid} </td>`;
+                        html += `<td> ${data.nilaiMahasiswas[i].kegiatan} </td>`;
+                        html += `<td> ${data.nilaiMahasiswas[i].uasP} </td>`;
+                        html += `<td> ${data.nilaiMahasiswas[i].uasT} </td>`;
+                        html += `<td> ${data.nilaiMahasiswas[i].totalNilai} </td>`;
+                        html += `<td> ${data.nilaiMahasiswas[i].hm} </td>`;
+                        html += `<td> ${data.nilaiMahasiswas[i].keterangan} </td>`;
+                    }
+                    $('#showDataNilaiMahasiswa').html(html);
+                }
+            });
+        }
+
+        fetch_data();
+
+        $(document).on('click', '.check_box', function(){
+            var html = '';
+            if(this.checked)
+            {
+                html = '<td><input type="checkbox" id="'+$(this).attr('id')+'" data-no="'+$(this).data('no')+'" data-npm="'+$(this).data('npm')+'" data-nama="'+$(this).data('nama')+'" data-mutabaah="'+$(this).data('mutabaah')+'" data-mid="'+$(this).data('mid')+'" data-kegiatan="'+$(this).data('kegiatan')+'" data-uasp="'+$(this).data('uasp')+'" data-uast="'+$(this).data('uast')+'" data-totalnilai="'+$(this).data('totalnilai')+'" data-hm="'+$(this).data('hm')+'" data-keterangan="'+$(this).data('keterangan')+'" class="check_box" checked /></td>';
+                html += '<td><input disabled type="text" name="no" class="form-control" value="'+$(this).data("no")+'" /></td>';
+                html += '<td><input disabled type="text" name="npm" class="form-control" value="'+$(this).data("npm")+'" /></td>';
+                html += '<td><input disabled type="text" name="nama" class="form-control" value="'+$(this).data("nama")+'" /></td>';
+                html += '<td><input type="number" name="absensi" class="form-control" value="'+$(this).data("absensi")+'" /></td>';
+                html += '<td><input type="number" name="mutabaah" class="form-control" value="'+$(this).data("mutabaah")+'" /></td>';
+                html += '<td><input type="number" name="mid" class="form-control" value="'+$(this).data("mid")+'" /></td>';
+                html += '<td><input type="number" name="kegiatan" class="form-control" value="'+$(this).data("kegiatan")+'" /></td>';
+                html += '<td><input type="number" name="uasP" class="form-control" value="'+$(this).data("uasp")+'" /></td>';
+                html += '<td><input type="number" name="uasT" class="form-control" value="'+$(this).data("uast")+'" /> <input type="hidden" name="mahasiswa_id" value="'+$(this).attr('id')+'" /> </td>';
+                html += '<td><input disabled type="text" name="totalnilai" class="form-control" value="'+$(this).data("totalnilai")+'" /></td>';
+                html += '<td><input disabled type="text" name="hm" class="form-control" value="'+$(this).data("hm")+'" /></td>';
+                html += '<td><input disabled type="text" name="keterangan" class="form-control" value="'+$(this).data("keterangan")+'" /></td>';
+            }
+            else
+            {
+                html = '<td><input type="checkbox" id="'+$(this).attr('id')+'" data-no="'+$(this).data('no')+'" data-npm="'+$(this).data('npm')+'" data-nama="'+$(this).data('nama')+'" data-mutabaah="'+$(this).data('mutabaah')+'" data-mid="'+$(this).data('mid')+'" data-kegiatan="'+$(this).data('kegiatan')+'" data-uasp="'+$(this).data('uasp')+'" data-uast="'+$(this).data('uast')+'" data-totalnilai="'+$(this).data('totalnilai')+'" data-hm="'+$(this).data('hm')+'" data-keterangan="'+$(this).data('keterangan')+'" class="check_box" /></td>';
+                html += '<td>'+$(this).data('no')+'</td>';
+                html += '<td>'+$(this).data('npm')+'</td>';
+                html += '<td>'+$(this).data('nama')+'</td>';
+                html += '<td>'+$(this).data('absensi')+'</td>';
+                html += '<td>'+$(this).data('mutabaah')+'</td>';
+                html += '<td>'+$(this).data('mid')+'</td>';
+                html += '<td>'+$(this).data('kegiatan')+'</td>';
+                html += '<td>'+$(this).data('uasp')+'</td>';
+                html += '<td>'+$(this).data('uast')+'</td>';
+                html += '<td>'+$(this).data('totalnilai')+'</td>';
+                html += '<td>'+$(this).data('hm')+'</td>';
+                html += '<td>'+$(this).data('keterangan')+'</td>';
+            }
+            $(this).closest('tr').html(html);            
+        });
+
+        $('#update_form').on('submit', function(event){
+            event.preventDefault();
+            if($('.check_box:checked').length > 0)
+            {
+                $.ajax({
+                    url:"/tutor/nilaiMahasiswa",
+                    method:"POST",
+                    data:$(this).serialize(),
+                    success:function()
+                    {
+                        swal({
+                            title: "Success",
+                            text: "Nilai Mahasiswa berhasil tersimpan!",
+                            icon: "success",
+                            button: "Oke",
+                        });
+                        fetch_data();
+                    }
+                })
+            }
+        });
+        
+    });
+</script>

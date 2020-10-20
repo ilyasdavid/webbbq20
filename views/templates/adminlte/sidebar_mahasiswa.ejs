@@ -1,0 +1,48 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="/foto-peserta-bbq/<%= mahasiswa.foto %>" class="img-circle" alt="User Image" />
+            </div>
+            <div class="pull-left info">
+                <p><%= mahasiswa.nama %></p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>        
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MAIN NAVIGATION</li>
+            <li class="<% if ( stuff.url == `/mahasiswa` ) { %> active <% } %>">
+                <a href="/mahasiswa">
+                    <i class="fa fa-home"></i> <span>Home</span>
+                </a>
+            </li>
+            <% if(user.role === "mahasiswa" && mahasiswa.status === "aktif"){ %>
+                <li class="<% if ( stuff.url == `/mahasiswa/jadwal/${user.id}` ) { %> active <% } %>">
+                <a href="/mahasiswa/jadwal/<%= user.id %>">
+                    <i class="fa fa-calendar"></i> <span>View Jadwal</span>
+                </a>
+            </li>
+            <li class="<% if ( stuff.url == `/mahasiswa/tutor/${user.id}` ) { %> active <% } %>">
+                <a href="/mahasiswa/tutor/<%= user.id %>">
+                    <i class="fa fa-user"></i> <span>View Tutor</span>
+                </a>
+            </li>
+            <li class="<% if ( stuff.url == `/mahasiswa/nilai/${user.id}` ) { %> active <% } %>">
+                <a href="/mahasiswa/nilai/<%= user.id %>">
+                    <i class="fa fa-list-alt"></i> <span>View Nilai</span>
+                </a>
+            </li>
+            <% } %>
+            <li class="<% if ( stuff.url == `/mahasiswa/cetak-registrasi/${user.id}` ) { %> active <% } %>">
+                <a href="/mahasiswa/cetak-registrasi/<%= user.id %>">
+                    <i class="fa fa-print"></i> <span>Cetak Registrasi</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

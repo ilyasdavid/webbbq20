@@ -1,0 +1,130 @@
+<%- include ../templates/adminlte/header-nav.ejs %>
+<%- include ../templates/adminlte/sidebar_mahasiswa.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1> Hasil Nilai Bina Baca Quran </h1>
+        <ol class="breadcrumb">
+            <li><a href="/mahasiswa"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">Hasil Nilai BBQ</li>
+        </ol>
+        <% if(alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+            <strong><%= alert.message %></strong>
+        </div>
+        <% } %>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <% if (kelompok == null) { %>
+        <div class="callout callout-warning" style="margin-bottom: 0!important;">
+            <h4><i class="fa fa-info"></i> Note:</h4>
+            Jadwal dan Kelompok BBQ Kamu sedang di Proses, harap bersabar.
+        </div>
+        <% } else { %>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="row">
+                    <br>                    
+                        <div class="col-md-12" align="left">
+                            <table id="dataSiswa" class="table table-bordered table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Kelas</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.Kela.namaKelas %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Npm</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.npm %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Nama</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.nama %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Jurusan</strong>
+                                        </td>
+                                        <td><strong><%= mahasiswa.Jurusan.namaJurusan %></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Absensi</strong>
+                                        </td>                                        
+                                            <td><strong><%= nilaiMahasiswa.absensi %></strong></td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Kegiatan</strong>
+                                        </td>                                        
+                                            <td><strong><%= nilaiMahasiswa.kegiatan %></strong></td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">MID</strong>
+                                        </td>                                        
+                                            <td><strong><%= nilaiMahasiswa.mid %></strong></td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">UAS Praktek</strong>
+                                        </td>                                        
+                                            <td><strong><%= nilaiMahasiswa.uasP %></strong></td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">UAS Tertulis</strong>
+                                        </td>                                        
+                                            <td><strong><%= nilaiMahasiswa.uasT %></strong></td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Total Nilai</strong>
+                                        </td>                                        
+                                            <td><strong><%= nilaiMahasiswa.totalNilai %></strong></td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Huruf Mutu</strong>
+                                        </td>                                        
+                                            <td><strong><%= nilaiMahasiswa.hm %></strong></td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td width="25%"
+                                            style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                            <strong style="color: mediumblue">Keterangan</strong>
+                                        </td>                                        
+                                            <td><strong><%= nilaiMahasiswa.keterangan %></strong></td>                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.box-body -->
+        </div>
+        <% } %>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<%- include ../templates/adminlte/footer.ejs %>

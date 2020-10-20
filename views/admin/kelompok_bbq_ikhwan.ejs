@@ -1,0 +1,337 @@
+<%- include ../templates/adminlte/header-nav.ejs %>
+<%- include ../templates/adminlte/sidebar_admin.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Kelompok BBQ Ikhwan
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="/admin"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active"><a href="#"> Kelompok BBQ</a></li>
+        </ol>
+        <% if(action === "view" && alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+            <strong><%= alert.message %></strong>
+        </div>
+        <% } %>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <% if(action === "view") { %>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-kelompok-bbq" data-toggle="tab">Kelompok BBQ</a></li>
+                        <li><a href="#tab-input-kelompok" data-toggle="tab">Tambah Kelompok</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="tab-kelompok-bbq">
+                            <div class="box-body table-responsive no-padding">
+                                <table id="tablePesertaIkhwan" class="table table-hover">
+                                    <thead>
+                                        <th>No.</th>                                        
+                                        <th>Nama Kelompok</th>                                        
+                                        <th style="text-align: center">Jadwal</th>
+                                        <th style="text-align: center">Baca Qur'an</th>
+                                        <th style="text-align: center">Kuota</th>
+                                        <th style="text-align: center">Status</th>
+                                        <th style="text-align: center">Aksi</th>
+                                    </thead>
+                                    <tbody>
+                                        <% for (var i = 0; i < kelompok.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
+                                            <td>
+                                                <%= kelompok[i].namaKelompok %>
+                                            </td>
+                                            <td>
+                                                <%= kelompok[i].jadwal %>
+                                            </td>
+                                            <td >
+                                                <%= kelompok[i].bacaQuran %>
+                                            </td>
+                                            <td>
+                                                <%= kelompok[i].Mahasiswas.length %> / 12
+                                            </td>
+                                            <td>
+                                                <% if (kelompok[i].Mahasiswas.length <= 12) { %>
+                                                    <a disabled class="btn btn-primary btn-xs">Available</a>
+                                                <% } else { %>
+                                                    <a disabled class="btn btn-danger btn-xs">Full</a>
+                                                <% } %>
+                                            </td>
+                                            <td style="text-align: center">
+                                                <div class="btn-group-horizontal">
+                                                    <a href="/admin/kelompok-bbq/ikhwan/<%=kelompok[i].id%>" class="btn btn-primary btn-xs">
+                                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                                        Lihat
+                                                    </a>
+                                                    <a href="/admin/kelompok-bbq/ikhwan/edit/<%=kelompok[i].id%>" class="btn btn-warning btn-xs">
+                                                        <span class="glyphicon glyphicon-edit"></span>
+                                                        Edit
+                                                    </a>
+                                                    <button class="btn btn-danger btn-xs"
+                                                        onclick="deleteKelompok(`<%= kelompok[i].id %>`)"
+                                                        data-id="<%= kelompok[i].id %>">
+                                                        <span class="glyphicon glyphicon-trash"></span>
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab-input-kelompok">
+                            <form class="form-horizontal" action="/admin/kelompokbbq_ikhwan/create" method="post">
+                                <!-- Nama Kelompok -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Nama Kelompok</label>
+
+                                    <div class="col-sm-10">
+                                        <input required type="text" class="form-control" name="namaKelompok" id="inputNamaKelompok" placeholder="Nama Kelompok">
+                                    </div>
+                                </div>
+                                <!-- Jadwal Kosong -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" >Jadwal
+                                        Kosong</label>
+
+                                    <div class="col-sm-10">
+                                        <select required name="jadwal" class="form-control">
+                                            <option value="">--- Pilih Jadwal Kosong ---</option>
+                                            <option value="Senin, pukul 11.00">Senin, pukul 11.00</option>
+                                            <option value="Senin, pukul 13.00">Senin, pukul 13.00</option>
+                                            <option value="Senin, pukul 15.00">Senin, pukul 15.00</option>
+                                            <option value="Selasa, pukul 11.00">Selasa, pukul 11.00</option>
+                                            <option value="Selasa, pukul 13.00">Selasa, pukul 13.00</option>
+                                            <option value="Selasa, pukul 15.00">Selasa, pukul 15.00</option>
+                                            <option value="Rabu, pukul 11.00">Rabu, pukul 11.00</option>
+                                            <option value="Rabu, pukul 13.00">Rabu, pukul 13.00</option>
+                                            <option value="Rabu, pukul 15.00">Rabu, pukul 15.00</option>
+                                            <option value="Kamis, pukul 11.00">Kamis, pukul 11.00</option>
+                                            <option value="Kamis, pukul 13.00">Kamis, pukul 13.00</option>
+                                            <option value="Kamis, pukul 15.00">Kamis, pukul 15.00</option>
+                                            <option value="Jum'at, pukul 11.00">Jum'at, pukul 11.00</option>
+                                            <option value="Jum'at, pukul 13.00">Jum'at, pukul 13.00</option>
+                                            <option value="Jum'at, pukul 15.00">Jum'at, pukul 15.00</option>
+                                            <option value="Sabtu, pukul 11.00">Sabtu, pukul 11.00</option>
+                                            <option value="Sabtu, pukul 13.00">Sabtu, pukul 13.00</option>
+                                            <option value="Sabtu, pukul 15.00">Sabtu, pukul 15.00</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Baca Qur'an -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" >Bacaan Al-Qur'an</label>
+
+                                    <div class="col-sm-10">
+                                        <select required name="bacaQuran" class="form-control">
+                                            <option value="">--- Pilih Kemampuan Membaca Al Qur'an ---</option>
+                                            <option value="Lancar">Lancar</option>
+                                            <option value="Belum Lancar">Belum Lancar</option>
+                                            <option value="Belum Bisa">Belum Bisa</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Tempat -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" >Tempat</label>
+
+                                    <div class="col-sm-10">
+                                        <select required name="tempat" class="form-control">
+                                            <option value="">--- Pilih Tempat ---</option>
+                                            <option value="Masjid Al-Maul Yusuf">Masjid Al-Maul Yusuf</option>                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Tutor ID -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Nama Tutor                                        </label>
+
+                                    <div class="col-sm-10">
+                                        <select required name="TutorId" class="form-control">                          
+                                            <option value="">--- Pilih Tutor ---</option>
+                                            <% for(let i = 0; i < tutor.length; i++) { %>
+                                            <option value=<%= tutor[i].id %>><%= tutor[i].nama %></option>
+                                            <% } %>
+                                            </select>
+                                    </div>
+                                </div>
+                                <!-- Astor ID -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Nama Astor</label>
+
+                                    <div class="col-sm-10">
+                                        <select required name="AstorId" class="form-control">                          
+                                            <option value="">--- Pilih Asisten Tutor ---</option>
+                                            <% for(let i = 0; i < astor.length; i++) { %>
+                                            <option value=<%= astor[i].id %>><%= astor[i].nama %></option>
+                                            <% } %>
+                                            </select>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary pull-left">
+                                        Simpan
+                                    </button>
+                                </div>
+                                <!-- /.box-footer -->                             
+                            </form>
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- /.nav-tabs-custom view -->
+                <% } else { %>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-edit-kelompok" data-toggle="tab">Edit Kelompok BBQ Ikhwan</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="tab-edit-kelompok">
+                            <!-- form edit kelompok -->
+                            <form class="form-horizontal" action="/admin/kelompok-bbq/ikhwan/edit/<%= kelompok.id %>" method="post">
+                                <!-- Nama Kelompok -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Nama Kelompok</label>
+                                    <div class="col-sm-10">
+                                        <input required type="text" class="form-control" name="namaKelompok" value="<%= kelompok.namaKelompok %>" />
+                                    </div>
+                                </div>
+                                <!-- Jadwal Kosong -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" >Jadwal Kosong</label>
+                                    <div class="col-sm-10">
+                                        <select required name="jadwal" class="form-control">
+                                            <option value="<%= kelompok.jadwal %>">--- <%= kelompok.jadwal %> ---</option>
+                                            <option value="Senin, pukul 11.00">Senin, pukul 11.00</option>
+                                            <option value="Senin, pukul 13.00">Senin, pukul 13.00</option>
+                                            <option value="Senin, pukul 15.00">Senin, pukul 15.00</option>
+                                            <option value="Selasa, pukul 11.00">Selasa, pukul 11.00</option>
+                                            <option value="Selasa, pukul 13.00">Selasa, pukul 13.00</option>
+                                            <option value="Selasa, pukul 15.00">Selasa, pukul 15.00</option>
+                                            <option value="Rabu, pukul 11.00">Rabu, pukul 11.00</option>
+                                            <option value="Rabu, pukul 13.00">Rabu, pukul 13.00</option>
+                                            <option value="Rabu, pukul 15.00">Rabu, pukul 15.00</option>
+                                            <option value="Kamis, pukul 11.00">Kamis, pukul 11.00</option>
+                                            <option value="Kamis, pukul 13.00">Kamis, pukul 13.00</option>
+                                            <option value="Kamis, pukul 15.00">Kamis, pukul 15.00</option>
+                                            <option value="Jum'at, pukul 11.00">Jum'at, pukul 11.00</option>
+                                            <option value="Jum'at, pukul 13.00">Jum'at, pukul 13.00</option>
+                                            <option value="Jum'at, pukul 15.00">Jum'at, pukul 15.00</option>
+                                            <option value="Sabtu, pukul 11.00">Sabtu, pukul 11.00</option>
+                                            <option value="Sabtu, pukul 13.00">Sabtu, pukul 13.00</option>
+                                            <option value="Sabtu, pukul 15.00">Sabtu, pukul 15.00</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Baca Qur'an -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" >Bacaan Al-Qur'an</label>
+
+                                    <div class="col-sm-10">
+                                        <select required name="bacaQuran" class="form-control">
+                                            <option value="<%= kelompok.bacaQuran %>">--- <%= kelompok.bacaQuran %> ---</option>
+                                            <option value="Lancar">Lancar</option>
+                                            <option value="Belum Lancar">Belum Lancar</option>
+                                            <option value="Belum Bisa">Belum Bisa</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Tempat -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" >Tempat</label>
+
+                                    <div class="col-sm-10">
+                                        <select required name="tempat" class="form-control">
+                                            <option value="<%= kelompok.tempat %>">--- <%= kelompok.tempat %> ---</option>
+                                            <option value="Masjid Al-Maul Yusuf">Masjid Al-Maul Yusuf</option>                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Tutor ID -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Nama Tutor</label>
+                                    <div class="col-sm-10">
+                                        <select required name="TutorId" class="form-control">                          
+                                            <option value="<%= kelompok.Tutor.id %>">--- <%= kelompok.Tutor.nama %> ---</option>
+                                            <% for(let i = 0; i < tutor.length; i++) { %>
+                                            <option value=<%= tutor[i].id %>><%= tutor[i].nama %></option>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Astor ID -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Nama Astor</label>
+                                    <div class="col-sm-10">
+                                        <select required name="AstorId" class="form-control">                          
+                                            <option value="<%= kelompok.Astor.id %>">--- <%= kelompok.Astor.nama %> ---</option>
+                                            <% for(let i = 0; i < astor.length; i++) { %>
+                                            <option value=<%= astor[i].id %>><%= astor[i].nama %></option>
+                                            <% } %>
+                                            </select>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary pull-left">
+                                        Simpan
+                                    </button>
+                                    <a href="/admin/kelompok-bbq/ikhwan" class="btn btn-success pull-right">
+                                        Kembali
+                                    </a>
+                                </div>
+                                <!-- /.box-footer -->                            
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.nav-tabs-edit-mahasiswa -->
+                <% } %>                
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<%- include ../templates/adminlte/footer.ejs %>
+<script>
+    $(document).ready(function () {
+        $("#tablePesertaIkhwan").DataTable();
+    });
+</script>
+
+<script type="text/javascript">
+    function deleteKelompok(id) {
+        const idKelompok = id;
+
+        swal({
+            title: "Yakin Ingin Menghapus Data Kelompok ini?",
+            text: "Data yang dihapus, tidak bisa kembali lagi. Sebelum Menghapus cek Kembali Datanya di dalam kelompok ini.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then(willDelete => {
+            if (willDelete) {
+                window.location.assign(`/admin/kelompokbbq_ikhwan/delete/${idKelompok}`);
+            }
+        });
+    }
+
+    function showEditData(){
+        
+    }
+</script>

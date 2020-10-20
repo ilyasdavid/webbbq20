@@ -1,0 +1,185 @@
+<td>                                                      
+    <a href="http://localhost/e-learning/public/admin/ujian/12/detail" class="btn btn-primary btn-xs">
+        <span class="glyphicon glyphicon-eye-open"></span> Lihat
+    </a>
+                                                        
+    <a href="http://localhost/e-learning/public/admin/ujian/12/edit" class="btn btn-warning btn-xs">
+        <span class="glyphicon glyphicon-edit"></span> Edit 
+    </a>
+    <a href="http://localhost/e-learning/public/guru/ujian/12/hapus" title="hapus" onclick="return confirm('Apakah anda yakin akan menghapus Data Ujian 1 - MID SEMESTER (PERTEMUAN 1-12)?')" class="btn btn-danger btn-xs">
+        <span class="glyphicon glyphicon-trash"></span> Delete
+    </a>                                
+</td>
+
+<td>  
+<div class="btn-group-vertical">
+    <a href="http://localhost/e-learning/public/admin/soal_ujian/11/edit" class="btn btn-warning btn-xs">
+    <span class="glyphicon glyphicon-edit"></span> Edit 
+</a> 
+<a href="http://localhost/e-learning/public/guru/soal_ujian/11/detail" class="btn btn-primary btn-xs">
+    <span class="glyphicon glyphicon-eye-open"></span> Lihat
+</a>
+<a href="http://localhost/e-learning/public/guru/soal_ujian/11/hapus" title="hapus" onclick="return confirm('Apakah anda yakin akan menghapus data 1 - MID SEMESTER (PERTEMUAN 1-12)?')" class="btn btn-danger btn-xs">
+    <span class="glyphicon glyphicon-trash"></span> Delete
+</a>
+</div>                                                                                                                       
+</td>
+
+viewIkhwanInKelompokBBQ: (req, res) => {
+        const alertMessage = req.flash('alertMessage');
+        const alertStatus = req.flash('alertStatus');
+        const alert = { message: alertMessage, status: alertStatus };
+        const userLogin = req.session.user
+
+        Mahasiswa.findAll({
+            where: {
+                jenis: { [Op.eq]: 'Pria' }
+            },
+            include: [
+                {
+                    model: Jurusan,
+                },
+                {
+                    model: User
+                },
+                {
+                    model: Kelas
+                },
+                {
+                    model: Dosen
+                }
+            ]
+        })
+            .then(mahasiswas => {
+                Kelompok.findAll()
+                    .then(kelompok => {
+                        Tutor.findAll()
+                            .then(tutor => {
+                                Astor.findAll()                                    
+                                    .then(astor => {
+                                        res.render("admin/kelompok_bbq_ikhwan", {
+                                            alert: alert,
+                                            user: userLogin,
+                                            kelompok: kelompok,
+                                            tutor: tutor,
+                                            astor: astor,
+                                            mahasiswas: mahasiswas,
+                                            action: "view"
+                                        });
+                                });
+                            });
+                    });
+            })
+            .catch(err => {
+                req.flash('alertMessage', err.message);
+                req.flash('alertStatus', 'danger');
+                res.render("admin/kelompok_bbq_ikhwan", {
+                    user: userLogin,
+                    action: "view"
+                });
+            });
+    },
+    viewAkhwatInKelompokBBQ: (req, res) => {
+        const alertMessage = req.flash('alertMessage');
+        const alertStatus = req.flash('alertStatus');
+        const alert = { message: alertMessage, status: alertStatus };
+        const userLogin = req.session.user
+
+        Mahasiswa.findAll({
+            where: {
+                jenisKelamin: { [Op.eq]: 'Wanita' }
+            },
+            include: [
+                {
+                    model: Jurusan,
+                },
+                {
+                    model: User
+                },
+                {
+                    model: Kelas
+                },
+                {
+                    model: Dosen
+                }
+            ]
+        })
+            .then(mahasiswas => {
+                Kelompok.findAll()
+                    .then(kelompok => {
+                        Tutor.findAll()
+                            .then(tutor => {
+                                Astor.findAll()                                    
+                                    .then(astor => {
+                                        res.render("admin/kelompok_bbq_akhwat", {
+                                            alert: alert,
+                                            user: userLogin,
+                                            kelompok: kelompok,
+                                            tutor: tutor,
+                                            astor: astor,
+                                            mahasiswas: mahasiswas,
+                                            action: "view"
+                                        });
+                                });
+                            });
+                    });
+            })
+            .catch(err => {
+                req.flash('alertMessage', err.message);
+                req.flash('alertStatus', 'danger');
+                res.render("admin/kelompok_bbq_akhwat", {
+                    user: userLogin,
+                    action: "view"
+                });
+            });
+    },
+
+<div class="active tab-pane" id="tab-kelompok-bbq">
+                            <div class="box-body table-responsive no-padding">
+                                <table id="tablePesertaAkhwat" class="table table-hover">
+                                    <thead>
+                                        <th>No.</th>
+                                        <th>NPM</th>
+                                        <th>Nama</th>
+                                        <th>Jurusan</th>
+                                        <th>Kelas</th>
+                                        <th>Bacaan Qur'an</th>
+                                        <th>Jadwal Kosong</th>
+                                        <th>Opsi</th>
+                                    </thead>
+                                    <tbody>
+                                        <% for (var i = 0; i < mahasiswas.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].npm %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].nama %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].Jurusan.namaJurusan %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].Kela.namaKelas %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].bacaQuran %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].jadwalKosong %>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary">Edit</a>
+                                                <button class="btn btn-danger" >                                                    
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>

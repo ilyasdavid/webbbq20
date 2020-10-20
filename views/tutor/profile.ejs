@@ -1,0 +1,95 @@
+<%- include ../templates/adminlte/header-top-nav.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <div class="container">
+        <section class="content-header">
+            <h1> Halaman Profile Tutor </h1>
+            <ol class="breadcrumb">
+                <li><a href="/tutor"><i class="fa fa-home"></i> Home</a></li>
+                <li class="active">Profile</li>
+            </ol>
+            <% if(alert.message != '') { %>
+            <br>
+            <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+                <strong><%= alert.message %></strong>
+            </div>
+            <% } %>
+        </section>
+    
+        <!-- Main content -->
+        <section class="content">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div class="pull-left">
+    
+                        <strong> Profile Akun </strong>
+    
+                    </div>
+                    <div class="pull-right">
+    
+                        <a href="/tutor/profile/edit/<%= user.id %>" class="btn btn-primary btn-xs">
+                            <span class="fa fa-gear"></span> Ubah Profile
+                        </a>
+                    </div>
+                </div><!-- /.box-header -->
+    
+                <div class="box-body">
+                    <div class="row">
+                        <br>
+                        <div class="col-md-12" style="margin-left: -2%">                            
+                            <div class="col-md-9" align="left">
+                                <table id="dataSiswa" class="table table-bordered table-hover">
+                                    <tbody>                                        
+                                        <tr>
+                                            <td width="25%"
+                                                style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                                <strong style="color: mediumblue">Nama</strong>
+                                            </td>
+                                            <td><strong><%= tutor.nama %></strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="25%"
+                                                style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                                <strong style="color: mediumblue">Username</strong>
+                                            </td>
+                                            <td><strong><%= tutor.User.username %></strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="25%"
+                                                style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                                <strong style="color: mediumblue">Jenis Kelamin</strong>
+                                            </td>
+                                            <td><strong><%= tutor.jenisKelamin %></strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="25%"
+                                                style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                                <strong style="color: mediumblue">Nomor HP</strong>
+                                            </td>
+                                            <td><strong><%= tutor.nomorHp %></strong></td>
+                                        </tr>                                        
+                                        <tr>
+                                            <td width="25%"
+                                                style="text-align: right;background-color: rgb(200, 219, 243); font-weight: 600; border-bottom-color: rgb(200, 219, 243)">
+                                                <strong style="color: mediumblue">Email</strong>
+                                            </td>
+                                            <td><strong><%= tutor.User.email %></strong></td>
+                                        </tr>                                        
+    
+                                    </tbody>
+                                </table>
+                            </div><!-- /.col -->
+                        </div><!-- /.col md-12 -->
+                    </div><!-- /.row -->
+                </div><!-- /.box-body -->
+    
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+    crossorigin="anonymous">
+    </script>
+<!-- /.content-wrapper -->
+<%- include ../templates/adminlte/footer.ejs %>

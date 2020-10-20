@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include layout/header.ejs %>
+</head>
+<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+
+<body class="hold-transition skin-blue layout-top-nav">
+  <div class="wrapper">
+    <header class="main-header">
+      <nav class="navbar navbar-static-top">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="/" class="navbar-brand"><b>BBQ</b> UKMI ARRAHMAN TEKNOKRAT
+            </a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+              <i class="fa fa-bars"></i>
+            </button>
+          </div>          
+          <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+      </nav>
+    </header>
+    <!-- Full Width Column -->
+    <div class="content-wrapper">
+      <div class="container">
+        <% if(alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+          <strong><%= alert.message %></strong>
+        </div>
+        <% } %>
+        <% if(akun === "register") { %>
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Form Registrasi Peserta BBQ (Bina Baca Quran)
+          </h1>
+        </section>
+        <% } %>
+        <!-- Main content -->
+        <section class="content">
+          <% if (akun === "login") { %>
+          <!-- PENGUMUMAN CAROUSEL DAN LOGIN-->
+          <div class="row" >
+            <div class="col-md-4" style="margin-left: 35%;">
+              <div class="box box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Silahkan Login</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <form action="/auth/signin" method="post">
+                    <div class="form-group has-feedback">
+                      <input name="username" type="text" class="form-control" placeholder="Username / NPM" required />
+                      <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                      <input name="password" type="password" class="form-control" placeholder="Password"
+                        id="inputPasswordLogin" required />
+                      <span toggle="#password-field1" class="fa fa-fw fa-eye field-icon-eye toggle-password1"></span>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-8">
+                        <a href="/forgot-password">Lupa Password ?</a><br />
+                        <a href="/register" class="text-center">Daftar BBQ</a>
+                      </div>
+                      <!-- /.col -->
+                      <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">
+                          Login
+                        </button>
+                      </div>
+                      <!-- /.col -->
+                    </div>
+                  </form>
+                </div>
+                <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+          <% } else if (akun === "register") { %>
+          <!-- PENGUMUMAN CAROUSEL DAN LOGIN-->
+          <div class="row">
+            <div class="col-md-12">
+              <!-- Horizontal Form -->
+              <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">
+                    Peserta Wajib Mengisi Identitas Dengan Lengkap dan Benar
+                  </h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form register -->
+                <form class="form-horizontal" action="/auth/signup" method="post" enctype="multipart/form-data">
+                  <div class="box-body">
+                    <!-- NPM -->
+                    <div class="form-group">
+                      <label for="inputNpm" class="col-sm-2 control-label">NPM</label>
+                      <div class="col-sm-10">
+                        <input required name="npm" type="text" class="form-control" id="inputNpm" placeholder="NPM" />
+                      </div>
+                    </div>
+                    <!-- Nama -->
+                    <div class="form-group">
+                      <label for="inputNama" class="col-sm-2 control-label">Nama</label>
+
+                      <div class="col-sm-10">
+                        <input required name="nama" type="text" class="form-control" id="inputNama"
+                          placeholder="Nama" />
+                      </div>
+                    </div>
+                    <!-- Foto -->
+                    <div class="form-group">
+                      <label for="inputFoto" class="col-sm-2 control-label"
+                        >Foto</label
+                      >
+        
+                      <div class="col-sm-10">
+                        <input
+                          required
+                          name="foto"
+                          type="file"
+                          class="form-control"
+                          id="inputFoto"
+                          onchange="return validasiFile()"
+                        />
+                      </div>
+                    </div>
+                    <!-- Jenis Kelamin -->
+                    <div class="form-group">
+                      <label for="inputJenisKelamin" class="col-sm-2 control-label">Jenis
+                        Kelamin</label>
+
+                      <div class="col-sm-10">
+                        <select required name="jenisKelamin" class="form-control">
+                          <option value="">--- Pilih Jenis Kelamin ---</option>
+                          <option value="Pria">Pria</option>
+                          <option value="Wanita">Wanita</option>
+                        </select>
+                      </div>
+                    </div>
+                    <!-- Username -->
+                    <div class="form-group">
+                      <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+
+                      <div class="col-sm-10">
+                        <input required name="username" type="text" class="form-control" id="inputUsername"
+                          placeholder="Username" />
+                      </div>
+                    </div>
+                    <!-- password -->
+                    <div class="form-group">
+                      <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                      <div class="col-sm-10">
+                        <input required name="password" type="password" class="form-control" id="inputPasswordRegister"
+                          placeholder="Password" />
+                        <span toggle="#password-field2" class="fa fa-fw fa-eye field-icon-eye toggle-password2"></span>
+                      </div>
+                    </div>
+                    <!-- Alamat -->
+                    <div class="form-group">
+                      <label for="inputAlamat" class="col-sm-2 control-label">Alamat</label>
+                      <div class="col-sm-10">
+                        <input required name="alamat" type="text" class="form-control" id="inputAlamat"
+                          placeholder="Alamat" />
+                      </div>
+                    </div>
+                    <!-- DatePicker Tanggal Lahir -->
+                    <div class="form-group">
+                      <label for="inputDatepickerTglLahir" class="col-sm-2 control-label">Tanggal
+                        Lahir</label>
+                      <div class="col-sm-10">
+                        <div class="input-group date">
+                          <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                          </div>
+                          <input type="date" required name="tglLahir" class="form-control pull-right"
+                            id="inputDatepickerTglLahir" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Jurusan -->
+                    <div class="form-group">
+                      <label for="inputJurusan" class="col-sm-2 control-label">Jurusan</label>
+
+                      <div class="col-sm-10">
+                        <select required name="JurusanId" class="form-control">
+                          <!-- Sementara ini manual nanti diambil dari table jurusan -->
+                          <option value="">--- Pilih Jurusan ---</option>
+                          <% for(let i = 0; i < jurusans.length; i++) { %>
+                          <option value=<%= jurusans[i].id %>><%= jurusans[i].namaJurusan %>
+                          </option>
+                          <% } %>
+                        </select>
+                      </div>
+                    </div>
+                    <!-- Membaca Al Quran -->
+                    <div class="form-group">
+                      <label for="inputBacaanAlquran" class="col-sm-2 control-label">Membaca Al
+                        Quran</label>
+
+                      <div class="col-sm-10">
+                        <select required name="bacaQuran" class="form-control">
+                          <option value="">--- Pilih Kategori Membaca Al Quran ---</option>
+                          <option value="Belum Bisa">Belum Bisa</option>
+                          <option value="Belum Lancar">Belum Lancar</option>
+                          <option value="Lancar">Lancar</option>
+                        </select>
+                      </div>
+                    </div>
+                    <!-- No. HP -->
+                    <div class="form-group">
+                      <label for="inputNoHp" class="col-sm-2 control-label">No. HP</label>
+
+                      <div class="col-sm-10">
+                        <input required name="nomorHp" type="number" class="form-control" id="inputNoHp" placeholder="Nomor HP" />
+                      </div>
+                    </div>
+                    <!-- Email -->
+                    <div class="form-group">
+                      <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+
+                      <div class="col-sm-10">
+                        <input required name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" />
+                      </div>
+                    </div>
+                    <!-- Kelas -->
+                    <div class="form-group">
+                      <label for="inputKelas" class="col-sm-2 control-label">Kelas</label>
+
+                      <div class="col-sm-10">
+                        <select required name="KelasId" class="form-control">                          
+                          <option value="">--- Pilih Kelas ---</option>
+                          <% for(let i = 0; i < kelas.length; i++) { %>
+                          <option value=<%= kelas[i].id %>> <%= kelas[i].namaKelas %></option>
+                          <% } %>
+                        </select>
+                      </div>
+                    </div>
+                    <!-- Jurusan -->
+                    <div class="form-group">
+                      <label for="inputDosen" class="col-sm-2 control-label">Dosen</label>
+
+                      <div class="col-sm-10">
+                        <select required name="DosenId" class="form-control">                          
+                          <option value="">--- Pilih Dosen ---</option>
+                          <% for(let i = 0; i < dosens.length; i++) { %>
+                          <option value=<%= dosens[i].id %>><%= dosens[i].nama %></option>
+                          <% } %>
+                        </select>
+                      </div>
+                    </div>
+                    <!-- Jadwal Kosong -->
+                    <div class="form-group">
+                      <label for="inputJadwalKosong" class="col-sm-2 control-label">Jadwal
+                        Kosong</label>
+
+                      <div class="col-sm-10">
+                        <select required name="jadwalKosong" class="form-control">
+                          <option value="">--- Pilih Jadwal Kosong ---</option>                          
+                          <option value="Senin, pukul 11.00">Senin, pukul 11.00</option>
+                          <option value="Senin, pukul 13.00">Senin, pukul 13.00</option>
+                          <option value="Senin, pukul 15.00">Senin, pukul 15.00</option>
+                          <option value="Selasa, pukul 11.00">Selasa, pukul 11.00</option>
+                          <option value="Selasa, pukul 13.00">Selasa, pukul 13.00</option>
+                          <option value="Selasa, pukul 15.00">Selasa, pukul 15.00</option>
+                          <option value="Rabu, pukul 11.00">Rabu, pukul 11.00</option>
+                          <option value="Rabu, pukul 13.00">Rabu, pukul 13.00</option>
+                          <option value="Rabu, pukul 15.00">Rabu, pukul 15.00</option>
+                          <option value="Kamis, pukul 11.00">Kamis, pukul 11.00</option>
+                          <option value="Kamis, pukul 13.00">Kamis, pukul 13.00</option>
+                          <option value="Kamis, pukul 15.00">Kamis, pukul 15.00</option>
+                          <option value="Jum'at, pukul 11.00">Jum'at, pukul 11.00</option>
+                          <option value="Jum'at, pukul 13.00">Jum'at, pukul 13.00</option>
+                          <option value="Jum'at, pukul 15.00">Jum'at, pukul 15.00</option>
+                          <option value="Sabtu, pukul 11.00">Sabtu, pukul 11.00</option>
+                          <option value="Sabtu, pukul 13.00">Sabtu, pukul 13.00</option>
+                          <option value="Sabtu, pukul 15.00">Sabtu, pukul 15.00</option>
+                        </select>
+                      </div>
+                    </div>
+                    <!-- End Form -->
+                  </div>
+                  <!-- /.box-body -->
+                  <div class="box-footer">
+                    <button type="submit" class="btn btn-primary pull-left" onclick="return checkLetter()">
+                      Simpan
+                    </button>
+                    <a href="/bbq" class="btn btn-danger pull-right">
+                      </span> Login
+                    </a>
+                  </div>
+                  <!-- /.box-footer -->
+                </form>
+              </div>
+              <!-- /.box -->
+            </div>
+          </div>
+          <!-- /.row -->
+          <!-- END ACCORDION & CAROUSEL-->
+          <% } else if (akun === "forgot-password") { %>
+          <div class="row">
+            <div class="col-md-12">
+              <!-- Horizontal Form -->
+              <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">
+                    Isikan Data Anda dengan Benar
+                  </h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form forgot password -->
+                <form class="form-horizontal" action="/forgot-password" method="post">
+                  <div class="box-body">
+                    <!-- Username -->
+                    <div class="form-group">
+                      <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+
+                      <div class="col-sm-10">
+                        <input required name="username" type="text" class="form-control" id="inputUsername"
+                          placeholder="Username" />
+                      </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                      <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+
+                      <div class="col-sm-10">
+                        <input required name="email" type="email" class="form-control" id="inputEmail"
+                          placeholder="Email" />
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- /.box-body -->
+                  <div class="box-footer">
+                    <button type="submit" class="btn btn-primary pull-left">
+                      Kirim Password ke Email
+                    </button>
+                    <a href="/bbq" class="btn btn-danger pull-right">
+                      </span> Login
+                    </a>
+                  </div>
+                  <!-- /.box-footer -->
+                </form>
+              </div>
+            </div>
+            <!-- End row -->
+          </div>
+          <% } %>
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.container -->
+    </div>
+    <!-- /.content-wrapper -->
+  </div>
+</body>
+<%- include layout/footer.ejs %> <%- include layout/js.ejs %>
+<script type="text/javascript">
+  $(".toggle-password1").click(function () {
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    let inputPasswordType = $('#inputPasswordLogin')
+    if (inputPasswordType.attr('type') === "password") {
+      inputPasswordType.attr('type', 'text');
+    } else {
+      inputPasswordType.attr('type', 'password');
+    }
+  });
+
+  $(".toggle-password2").click(function () {
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    let inputPasswordType = $('#inputPasswordRegister')
+    if (inputPasswordType.attr('type') === "password") {
+      inputPasswordType.attr('type', 'text');
+    } else {
+      inputPasswordType.attr('type', 'password');
+    }
+  });
+
+  function checkLetter()
+  {
+      var validasiHuruf = /^[a-zA-Z ]+$/;
+      var namaKota = document.getElementById("inputNama");
+      
+      if (!namaKota.value.match(validasiHuruf)) {
+        swal({
+              title: "Warning",
+              text: "Nama Mahasiswa harus Huruf!",
+              icon: "warning",
+          });
+        return false;
+      }
+  }
+
+  function validasiFile(){
+      var inputFile = document.getElementById('inputFoto');
+      var pathFile = inputFile.value;
+      var ekstensiOk = /(\.jpg|\.jpeg|\.png)$/i;
+      if(!ekstensiOk.exec(pathFile)){          
+          swal({
+              title: "Warning",
+              text: "Silahkan upload file yang memiliki ekstensi .jpeg/.jpg/.png",
+              icon: "warning",
+          });
+          inputFile.value = '';
+          return false;
+      }
+  }
+</script>
+
+</html>

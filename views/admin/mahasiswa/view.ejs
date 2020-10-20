@@ -1,0 +1,684 @@
+<%- include ../../templates/adminlte/header-nav.ejs %>
+<%- include ../../templates/adminlte/sidebar_admin.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Lihat Mahasiswa
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="/admin"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active"><a href="#"> Lihat Mahasiswa</a></li>
+        </ol>
+        <% if(action === "view" && alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+            <strong><%= alert.message %></strong>
+        </div>
+        <% } %>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <% if(action === "view") { %>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#activity" data-toggle="tab">Lihat Mahasiswa</a></li>
+                        <li><a href="#input-mahasiswa" data-toggle="tab">Input Mahasiswa</a></li>                        
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="activity">
+                            <div class="box-body table-responsive no-padding">
+                                <table id="tableMahasiswa" class="table table-hover">
+                                    <thead>
+                                        <th>No.</th>
+                                        <th style="text-align: center">NPM</th>
+                                        <th>Nama</th>
+                                        <th style="text-align: center">Foto</th>
+                                        <th style="text-align: center">Jurusan</th>
+                                        <th>Kelas</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th style="text-align: center">No. Hp</th>
+                                        <th>Status</th>
+                                        <th style="text-align: center">Aksi</th>
+                                    </thead>
+                                    <tbody>
+                                        <% for (var i = 0; i < mahasiswas.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].npm %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].nama %>
+                                            </td>
+                                            <td>
+                                                <% if (mahasiswas[i].foto) { %>
+                                                <img
+                                                    src="/foto-peserta-bbq/<%= mahasiswas[i].foto %>"
+                                                    height="70"
+                                                    width="70"
+                                                    alt="foto"
+                                                />
+                                                <% } else { %>
+                                                    Tidak Ada
+                                                <% } %>                                                
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].Jurusan.namaJurusan %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].Kela.namaKelas %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].jenisKelamin %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].nomorHp %>
+                                            </td>
+                                            <td>
+                                                <%= mahasiswas[i].status %>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-warning btn-xs"
+                                                    href="/admin/mahasiswa/edit/<%= mahasiswas[i].id %>">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                    Edit
+                                                </a>
+                                                <button class="btn btn-danger btn-xs"
+                                                    onclick="myFunction(`<%= mahasiswas[i].id %>`)"
+                                                    data-id="<%= mahasiswas[i].id %>">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="input-mahasiswa">
+                            <!-- form input mahasiswa -->
+                            <form class="form-horizontal" action="/admin/mahasiswa/create" method="post" enctype="multipart/form-data">
+                                <div class="box-body">
+                                    <!-- NPM -->
+                                    <div class="form-group">
+                                        <label for="inputNpm" class="col-sm-2 control-label">NPM</label>
+                                        <div class="col-sm-10">
+                                            <input required name="npm" type="text" class="form-control" id="inputNpm"
+                                                placeholder="NPM" />
+                                        </div>
+                                    </div>
+                                    <!-- Nama -->
+                                    <div class="form-group">
+                                        <label for="inputNama" class="col-sm-2 control-label">Nama</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="nama" type="text" class="form-control" id="inputNama"
+                                                placeholder="Nama" />
+                                        </div>
+                                    </div>
+                                    <!-- Foto -->
+                                    <div class="form-group">
+                                        <label for="inputFoto" class="col-sm-2 control-label">
+                                            Foto
+                                        </label>                        
+                                        <div class="col-sm-10">
+                                        <input
+                                            required
+                                            name="foto"
+                                            type="file"
+                                            class="form-control"
+                                            id="inputFoto"
+                                            onchange="return validasiFile()"
+                                        />
+                                        </div>
+                                    </div>
+                                    <!-- Jenis Kelamin -->
+                                    <div class="form-group">
+                                        <label for="inputJenisKelamin" class="col-sm-2 control-label">Jenis
+                                            Kelamin</label>
+
+                                        <div class="col-sm-10">
+                                            <select required name="jenisKelamin" class="form-control">
+                                                <option value="">--- Pilih Jenis Kelamin ---</option>
+                                                <option value="Pria">Pria</option>
+                                                <option value="Wanita">Wanita</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Username -->
+                                    <div class="form-group">
+                                        <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="username" type="text" class="form-control"
+                                                id="inputUsername" placeholder="Username" />
+                                        </div>
+                                    </div>
+                                    <!-- password -->
+                                    <div class="form-group">
+                                        <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                                        <div class="col-sm-10">
+                                            <input required name="password" type="password" class="form-control" id="inputPasswordRegister"
+                                            placeholder="Password" />
+                                            <span toggle="#password-field2" class="fa fa-fw fa-eye field-icon-eye toggle-password2"></span>
+                                        </div>
+                                    </div>
+                                    <!-- alamat -->
+                                    <div class="form-group">
+                                        <label for="inputAlamat" class="col-sm-2 control-label">Alamat</label>
+                                        <div class="col-sm-10">
+                                            <input required name="alamat" type="text" class="form-control"
+                                                id="inputAlamat" placeholder="Alamat" />
+                                        </div>
+                                    </div>
+                                    <!-- DatePicker Tanggal Lahir -->
+                                    <div class="form-group">
+                                        <label for="inputDatepickerTglLahir" class="col-sm-2 control-label">Tanggal
+                                            Lahir</label>
+                                        <div class="col-sm-10">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="date" required name="tglLahir"
+                                                    class="form-control pull-right" id="inputDatepickerTglLahir" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Jurusan -->
+                                    <div class="form-group">
+                                        <label for="inputJurusan" class="col-sm-2 control-label">Jurusan</label>
+
+                                        <div class="col-sm-10">
+                                            <select required name="JurusanId" class="form-control">
+                                                <!-- Sementara ini manual nanti diambil dari table jurusan -->
+                                                <option value="">--- Pilih Jurusan ---</option>
+                                                <% for(let i = 0; i < jurusans.length; i++) { %>
+                                                <option value=<%= jurusans[i].id %>><%= jurusans[i].namaJurusan %>
+                                                </option>
+                                                <% } %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Membaca Al Quran -->
+                                    <div class="form-group">
+                                        <label for="inputBacaanAlquran" class="col-sm-2 control-label">Membaca Al
+                                            Quran</label>
+
+                                        <div class="col-sm-10">
+                                            <select required name="bacaQuran" class="form-control">
+                                                <option value="">--- Pilih Kategori Membaca Al Quran ---</option>
+                                                <option value="Belum Bisa">Belum Bisa</option>
+                                                <option value="Belum Lancar">Belum Lancar</option>
+                                                <option value="Lancar">Lancar</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- No. HP -->
+                                    <div class="form-group">
+                                        <label for="inputNoHp" class="col-sm-2 control-label">No. HP</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="nomorHp" type="number" class="form-control"
+                                                placeholder="Nomor HP" id="inputNoHp" />
+                                        </div>
+                                    </div>
+                                    <!-- Email -->
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="email" type="email" class="form-control"
+                                                placeholder="Email" id="inputEmail" />
+                                        </div>
+                                    </div>
+                                    <!-- Kelas -->
+                                    <div class="form-group">
+                                        <label for="inputKelas" class="col-sm-2 control-label">Kelas</label>
+
+                                        <div class="col-sm-10">
+                                            <select required name="KelasId" class="form-control">
+                                                <!-- Sementara ini manual nanti diambil dari table KELAS -->
+                                                <option value="">--- Pilih Kelas ---</option>
+                                                <% for(let i = 0; i < kelas.length; i++) { %>
+                                                <option value=<%= kelas[i].id %>> <%= kelas[i].namaKelas %></option>
+                                                <% } %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Jurusan -->
+                                    <div class="form-group">
+                                        <label for="inputDosen" class="col-sm-2 control-label">Dosen</label>
+
+                                        <div class="col-sm-10">
+                                            <select required name="DosenId" class="form-control">
+                                                <!-- Sementara ini manual nanti diambil dari table DOSEN -->
+                                                <option value="">--- Pilih Dosen ---</option>
+                                                <% for(let i = 0; i < dosens.length; i++) { %>
+                                                <option value=<%= dosens[i].id %>><%= dosens[i].nama %></option>
+                                                <% } %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Jadwal Kosong -->
+                                    <div class="form-group">
+                                        <label for="inputJadwalKosong" class="col-sm-2 control-label">Jadwal
+                                            Kosong</label>
+
+                                        <div class="col-sm-10">
+                                            <select required name="jadwalKosong" class="form-control">
+                                                <option value="">--- Pilih Jadwal Kosong ---</option>
+                                                <option value="Senin, pukul 11.00">Senin, pukul 11.00</option>
+                                                <option value="Senin, pukul 13.00">Senin, pukul 13.00</option>
+                                                <option value="Senin, pukul 15.00">Senin, pukul 15.00</option>
+                                                <option value="Selasa, pukul 11.00">Selasa, pukul 11.00</option>
+                                                <option value="Selasa, pukul 13.00">Selasa, pukul 13.00</option>
+                                                <option value="Selasa, pukul 15.00">Selasa, pukul 15.00</option>
+                                                <option value="Rabu, pukul 11.00">Rabu, pukul 11.00</option>
+                                                <option value="Rabu, pukul 13.00">Rabu, pukul 13.00</option>
+                                                <option value="Rabu, pukul 15.00">Rabu, pukul 15.00</option>
+                                                <option value="Kamis, pukul 11.00">Kamis, pukul 11.00</option>
+                                                <option value="Kamis, pukul 13.00">Kamis, pukul 13.00</option>
+                                                <option value="Kamis, pukul 15.00">Kamis, pukul 15.00</option>
+                                                <option value="Jum'at, pukul 11.00">Jum'at, pukul 11.00</option>
+                                                <option value="Jum'at, pukul 13.00">Jum'at, pukul 13.00</option>
+                                                <option value="Jum'at, pukul 15.00">Jum'at, pukul 15.00</option>
+                                                <option value="Sabtu, pukul 11.00">Sabtu, pukul 11.00</option>
+                                                <option value="Sabtu, pukul 13.00">Sabtu, pukul 13.00</option>
+                                                <option value="Sabtu, pukul 15.00">Sabtu, pukul 15.00</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- End Form -->
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary pull-left"  onclick="return checkLetter()">
+                                        Simpan
+                                    </button>
+                                </div>
+                                <!-- /.box-footer -->
+                            </form>
+                        </div>
+                        <!-- /.tab-pane -->
+                        
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- /.nav-tabs-view -->
+                <% } else { %>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#edit-mahasiswa" data-toggle="tab">Edit Mahasiswa</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="edit-mahasiswa">
+                            <!-- form edit mahasiswa -->
+                            <div class="row">
+                                <!-- left column -->
+                                <div class="col-md-7">
+                                    <div class="box box-info">
+                                        <div class="box-header with-border">
+                                            <div class="pull-left">
+                    
+                                                Edit Profile
+                    
+                                            </div>
+                                        </div><!-- /.box-header -->
+                    
+                                        <div class="box-body">
+                                            <!-- form edit mahasiswa -->
+                                            <form class="form-horizontal" action="/admin/mahasiswa/edit/<%= mahasiswa.id %>" method="post" enctype="multipart/form-data">
+                                                <div class="box-body">
+                                                    <!-- NPM -->
+                                                    <div class="form-group">
+                                                        <label for="inputNpm" class="col-sm-2 control-label">NPM</label>
+                                                        <div class="col-sm-10">
+                                                            <input required name="npm" type="text" class="form-control" id="inputNpm"
+                                                                placeholder="NPM" value="<%= mahasiswa.npm %>" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- Username -->
+                                                    <div class="form-group">
+                                                        <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+                                                        <div class="col-sm-10">
+                                                            <input required name="username" type="text" class="form-control"
+                                                                id="inputUsername" placeholder="Username"
+                                                                value="<%= mahasiswa.User.username %>" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- Nama -->
+                                                    <div class="form-group">
+                                                        <label for="inputNama" class="col-sm-2 control-label">Nama</label>
+                    
+                                                        <div class="col-sm-10">
+                                                            <input required name="nama" type="text" class="form-control" id="inputNama"
+                                                                placeholder="Nama" value="<%= mahasiswa.nama %>" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- Foto -->
+                                                    <div class="form-group">
+                                                        <label for="inputFoto" class="col-sm-2 control-label">
+                                                            Foto
+                                                        </label>                    
+                                                        <div class="col-sm-10">
+                                                            <input                                            
+                                                                name="foto"
+                                                                type="file"
+                                                                class="form-control"
+                                                                id="inputFoto"
+                                                            />
+                                                            <% if (mahasiswa.foto) { %>
+                                                                <small> Foto masih tersimpan dengan nama : <strong><%= mahasiswa.foto %></strong></small>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Jenis Kelamin -->
+                                                    <div class="form-group">
+                                                        <label for="inputJenisKelamin" class="col-sm-2 control-label">Jenis
+                                                            Kelamin</label>
+                    
+                                                        <div class="col-sm-10">
+                                                            <select required name="jenisKelamin" class="form-control">
+                                                                <option value="<%= mahasiswa.jenisKelamin %>">---
+                                                                    <%= mahasiswa.jenisKelamin %> ---</option>
+                                                                <option value="Pria">Pria</option>
+                                                                <option value="Wanita">Wanita</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputAlamat" class="col-sm-2 control-label">Alamat</label>
+                                                        <div class="col-sm-10">
+                                                            <input required name="alamat" type="text" class="form-control" id="inputAlamat"
+                                                                placeholder="Alamat" value="<%= mahasiswa.alamat %>" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- DatePicker Tanggal Lahir -->
+                                                    <div class="form-group">
+                                                        <label for="inputDatepickerTglLahir" class="col-sm-2 control-label">Tanggal
+                                                            Lahir</label>
+                                                        <div class="col-sm-10">
+                                                            <div class="input-group date">
+                                                                <div class="input-group-addon">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                                <input type="date" required name="tglLahir" class="form-control pull-right"
+                                                                    id="inputDatepickerTglLahir" value="<%= mahasiswa.tglLahir %>" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Jurusan -->
+                                                    <div class="form-group">
+                                                        <label for="inputJurusan" class="col-sm-2 control-label">Jurusan</label>
+                    
+                                                        <div class="col-sm-10">
+                                                            <select required name="JurusanId" class="form-control">
+                                                                <!-- Sementara ini manual nanti diambil dari table jurusan -->
+                                                                <option value=<%= mahasiswa.JurusanId %>>---
+                                                                    <%= mahasiswa.Jurusan.namaJurusan %> ---</option>
+                                                                <% for(let i = 0; i < jurusans.length; i++) { %>
+                                                                <option value=<%= jurusans[i].id %>><%= jurusans[i].namaJurusan %>
+                                                                </option>
+                                                                <% } %>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Membaca Al Quran -->
+                                                    <div class="form-group">
+                                                        <label for="inputBacaanAlquran" class="col-sm-2 control-label">Membaca Al
+                                                            Quran</label>
+                    
+                                                        <div class="col-sm-10">
+                                                            <select required name="bacaQuran" class="form-control">
+                                                                <option value="<%= mahasiswa.bacaQuran %>">---
+                                                                    <%= mahasiswa.bacaQuran %> ---</option>
+                                                                <option value="Belum Bisa">Belum Bisa</option>
+                                                                <option value="Belum Lancar">Belum Lancar</option>
+                                                                <option value="Lancar">Lancar</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- No. HP -->
+                                                    <div class="form-group">
+                                                        <label for="inputNoHp" class="col-sm-2 control-label">No. HP</label>
+                    
+                                                        <div class="col-sm-10">
+                                                            <input required name="nomorHp" type="text" class="form-control" id="inputNoHp"
+                                                                value="<%= mahasiswa.nomorHp %>" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- Email -->
+                                                    <div class="form-group">
+                                                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    
+                                                        <div class="col-sm-10">
+                                                            <input required name="email" type="email" class="form-control" id="inputEmail"
+                                                                value="<%= mahasiswa.User.email %>" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- Kelas -->
+                                                    <div class="form-group">
+                                                        <label for="inputKelas" class="col-sm-2 control-label">Kelas</label>
+                    
+                                                        <div class="col-sm-10">
+                                                            <select required name="KelasId" class="form-control">
+                                                                <option value=<%= mahasiswa.KelasId %>>---
+                                                                    <%= mahasiswa.Kela.namaKelas %> ---</option>
+                                                                <% for(let i = 0; i < kelas.length; i++) { %>
+                                                                <option value=<%= kelas[i].id %>> <%= kelas[i].namaKelas %></option>
+                                                                <% } %>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Dosen -->
+                                                    <div class="form-group">
+                                                        <label for="inputDosen" class="col-sm-2 control-label">Dosen</label>
+                    
+                                                        <div class="col-sm-10">
+                                                            <select required name="DosenId" class="form-control">
+                                                                <option value=<%= mahasiswa.DosenId %>>--- <%= mahasiswa.Dosen.nama %>
+                                                                    ---</option>
+                                                                <% for(let i = 0; i < dosens.length; i++) { %>
+                                                                <option value=<%= dosens[i].id %>><%= dosens[i].nama %></option>
+                                                                <% } %>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Jadwal Kosong -->
+                                                    <div class="form-group">
+                                                        <label for="inputJadwalKosong" class="col-sm-2 control-label">Jadwal
+                                                            Kosong</label>
+                    
+                                                        <div class="col-sm-10">
+                                                            <select required name="jadwalKosong" class="form-control">
+                                                                <option value="<%= mahasiswa.jadwalKosong %>">---
+                                                                    <%= mahasiswa.jadwalKosong %> ---</option>
+                                                                    <option value="Senin, pukul 11.00">Senin, pukul 11.00</option>
+                                                                    <option value="Senin, pukul 13.00">Senin, pukul 13.00</option>
+                                                                    <option value="Senin, pukul 15.00">Senin, pukul 15.00</option>
+                                                                    <option value="Selasa, pukul 11.00">Selasa, pukul 11.00</option>
+                                                                    <option value="Selasa, pukul 13.00">Selasa, pukul 13.00</option>
+                                                                    <option value="Selasa, pukul 15.00">Selasa, pukul 15.00</option>
+                                                                    <option value="Rabu, pukul 11.00">Rabu, pukul 11.00</option>
+                                                                    <option value="Rabu, pukul 13.00">Rabu, pukul 13.00</option>
+                                                                    <option value="Rabu, pukul 15.00">Rabu, pukul 15.00</option>
+                                                                    <option value="Kamis, pukul 11.00">Kamis, pukul 11.00</option>
+                                                                    <option value="Kamis, pukul 13.00">Kamis, pukul 13.00</option>
+                                                                    <option value="Kamis, pukul 15.00">Kamis, pukul 15.00</option>
+                                                                    <option value="Jum'at, pukul 11.00">Jum'at, pukul 11.00</option>
+                                                                    <option value="Jum'at, pukul 13.00">Jum'at, pukul 13.00</option>
+                                                                    <option value="Jum'at, pukul 15.00">Jum'at, pukul 15.00</option>
+                                                                    <option value="Sabtu, pukul 11.00">Sabtu, pukul 11.00</option>
+                                                                    <option value="Sabtu, pukul 13.00">Sabtu, pukul 13.00</option>
+                                                                    <option value="Sabtu, pukul 15.00">Sabtu, pukul 15.00</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Form -->
+                                                </div>
+                                                <!-- /.box-body -->
+                                                <div class="box-footer">
+                                                    <button type="submit" class="btn btn-primary">
+                                                        Simpan
+                                                    </button>
+                                                </div>
+                                                <!-- /.box-footer -->
+                                            </form>
+                                        </div><!-- /.col md-7 -->
+                                    </div><!-- /.row -->
+                                </div><!-- /.box-body -->
+                                <!-- right column -->
+                                <div class="col-md-5">
+                                    <div class="box box-danger">
+                                        <div class="box-header with-border">
+                                            <div class="pull-left">
+                                                Ubah Password
+                                            </div>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <form class="form-vertical" action="/admin/mahasiswa/edit-password/<%= mahasiswa.id %>"
+                                                method="post">
+                                                <!-- New Password -->
+                                                <div class="form-group">
+                                                    <label for="inputPassword">New Password </label>
+                                                    <div>
+                                                        <input type="password" class="form-control" name="password" id="password"
+                                                            placeholder="Password" required>
+                                                        <span toggle="#password-field1"
+                                                            class="fa fa-fw fa-eye field-icon-eye toggle-password1"></span>
+                                                    </div>
+                                                </div>
+                                                <!-- New Password Confirmation -->
+                                                <div class="form-group">
+                                                    <label for="inputPassword"> Confirm Password </label>
+                                                    <div>
+                                                        <input type="password" class="form-control" name="passwordConfirm"
+                                                            id="passwordConfirm" placeholder="Confirm Password" required>
+                                                        <span toggle="#password-field2"
+                                                            class="fa fa-fw fa-eye field-icon-eye toggle-password2"></span>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="box-footer">
+                                            <button type="submit" class="btn btn-primary" onclick="return Validate()">
+                                                Ubah
+                                            </button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.nav-tabs-edit-mahasiswa -->
+                <% } %>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<%- include ../../templates/adminlte/footer.ejs %>
+<script>
+    $(document).ready(function () {
+        $("#tableMahasiswa").DataTable();
+        $("#tableRaportMahasiswa").DataTable();
+    });
+</script>
+
+<script type="text/javascript">
+    function checkLetter()
+    {
+        var validasiHuruf = /^[a-zA-Z ]+$/;
+        var namaKota = document.getElementById("inputNama");
+        
+        if (!namaKota.value.match(validasiHuruf)) {
+            swal({
+                title: "Warning",
+                text: "Nama Mahasiswa harus Huruf!",
+                icon: "warning",
+            });
+            return false;
+        }
+    }
+
+    function validasiFile(){
+        var inputFile = document.getElementById('inputFoto');
+        var pathFile = inputFile.value;
+        var ekstensiOk = /(\.jpg|\.jpeg|\.png)$/i;
+        if(!ekstensiOk.exec(pathFile)){          
+            swal({
+                title: "Warning",
+                text: "Silahkan upload file yang memiliki ekstensi .jpeg/.jpg/.png",
+                icon: "warning",
+            });
+            inputFile.value = '';
+            return false;
+        }
+    }
+    function myFunction(id) {
+        let idMahasiswa = id;
+
+        swal({
+            title: "Yakin Ingin Menghapus Data Mahasiswa ini?",
+            text: "Data yang dihapus, tidak bisa kembali lagi.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then(willDelete => {
+            if (willDelete) {
+                window.location.assign(`/admin/mahasiswa/delete/${idMahasiswa}`);
+            }
+        });
+    }
+
+    function Validate() {
+        let password = document.getElementById("password").value;
+        let passwordConfirm = document.getElementById("passwordConfirm").value;
+        if (password !== "" && passwordConfirm !== "") {
+            if (password !== passwordConfirm) {
+                swal({
+                    title: "Not Match!",
+                    text: "Your Password Confirmation Not Match!",
+                    icon: "warning",
+                    button: "Oke",
+                });
+                return false;
+            } else {
+                console.log('Oke Sama');
+                return true;
+            }
+        }
+    }
+
+    $(".toggle-password1").click(function () {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        let inputPasswordType = $('#password')
+        if (inputPasswordType.attr('type') === "password") {
+            inputPasswordType.attr('type', 'text');
+        } else {
+            inputPasswordType.attr('type', 'password');
+        }
+    });
+
+    $(".toggle-password2").click(function () {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        let inputPasswordConfirmType = $('#passwordConfirm')
+        if (inputPasswordConfirmType.attr('type') === "password") {
+            inputPasswordConfirmType.attr('type', 'text');
+        } else {
+            inputPasswordConfirmType.attr('type', 'password');
+        }
+    });
+
+</script>

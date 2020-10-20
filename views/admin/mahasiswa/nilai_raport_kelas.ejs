@@ -1,0 +1,100 @@
+<%- include ../../templates/adminlte/header-nav.ejs %>
+<%- include ../../templates/adminlte/sidebar_admin.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            View Raport Peserta BBQ
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="/admin/"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active"><a href="/admin/mahasiswa/view">View Raport</a></li>
+            <li class="active">Per Kelas</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header" id="border">
+                    <div align="center">
+                        <table class="table" style="border: 1px solid;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid" >
+                                    <th style="border-bottom: 1px solid" scope="col"><img src="/images/logo-uti.png" width=90 height=95></th>
+                                        <td style="border-bottom: 1px solid"></th>
+                                    <td align="center"><b>
+                                            <span style='font-size:10.0pt;font-family:"Times New Roman","serif"'>
+                                                UNIT KEGIATAN MAHASISWA ISLAM (UKMI) AR-RAHMAN
+                                                <p>UNIVERSITAS TEKNOKRAT INDONESIA</p>
+                                            </span>
+                                            <p style='font-size:9.0pt;font-family:"Times New Roman","serif"'>Jalan Zainal Abidin Pagar Alam No. 9-11, Kedaton, Bandar Lampung <br>
+                                                Telp.(0721) 702022. HP 0857898367, 085788090489</p>
+                                        </b></td>
+                                        <td style="border-bottom: 1px solid"></th>
+                                    <th style="border-bottom: 1px solid; border-right: 1px solid;" scope="col"><img src="/images/logo-ukmi.png" width=90 height=95 style="margin-left: 40px;"></th>
+                                </tr>
+                                <td colspan="6" align="center" style="border-top: 1px solid;border-right: hidden;border-left: hidden;"><b>Nilai BBQ</b></td>
+                                <tr>
+                                    <td colspan="6" align="center" style="border-top: hidden;border-right: hidden;border-bottom: hidden;border-left: hidden;"><b><%= kelas.namaKelas %></b></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <div class="box-body table-responsive no-padding">
+                                    <table id="tableRaportPesertaBBQ" class="table table-bordered" style='font-size:10pt;font-family:"Times New Roman","serif"'>
+                                        <thead>
+                                            <th>No.</th>
+                                            <th style="text-align: center">NPM</th>
+                                            <th>NAMA</th>
+                                            <th style="text-align: center">NILAI</th>
+                                            <th style="text-align: center">HM</th>
+                                        </thead>
+                                        <tbody>
+                                            <% for (var i = 0; i < RaportKelas.length; i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= i+1 %>
+                                                </td>
+                                                <td style="text-align: center">
+                                                    <%= RaportKelas[i].Mahasiswa.npm %>
+                                                </td>
+                                                <td>
+                                                    <%= RaportKelas[i].Mahasiswa.nama %>
+                                                </td>                                               
+                                                <td style="text-align: center">
+                                                    <%= RaportKelas[i].totalNilai %>
+                                                </td>
+                                                <td style="text-align: center">
+                                                    <%= RaportKelas[i].hm %>
+                                                </td>                                                
+                                            </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </tbody>
+                        </table>
+                </h2>
+            </div>
+        </div>
+        <!-- this row will not appear when printing -->
+        <div class="row no-print">
+            <div class="col-xs-12">
+                <a onclick="window.print()" class="btn btn-default pull-left"><i class="fa fa-print"></i>
+                    Print
+                </a>
+                <a onclick="window.history.back()" class="btn btn-success pull-right">
+                    Kembali
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+    <div class="clearfix"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous">
+</script>
+<!-- /.content-wrapper -->
+<%- include ../../templates/adminlte/footer.ejs %>

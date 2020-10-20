@@ -1,0 +1,312 @@
+<%- include ../../templates/adminlte/header-nav.ejs %>
+<%- include ../../templates/adminlte/sidebar_admin.ejs %>
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Tutor BBQ
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active"><a href="/admin"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active"><a href="#"> Tutor BBQ</a></li>
+        </ol>
+        <% if(action === "view" && alert.message != '') { %>
+        <br>
+        <div class="alert alert-<%= alert.status %>" style="text-align: center;">
+            <strong><%= alert.message %></strong>
+        </div>
+        <% } %>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <% if(action === "view") { %>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-lihat-tutor" data-toggle="tab">Lihat Tutor</a></li>
+                        <li><a href="#tab-input-tutor" data-toggle="tab">Input Tutor</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="tab-lihat-tutor">
+                            <div class="box-body table-responsive no-padding">
+                                <table id="tableTutorBBQ" class="table table-hover">
+                                    <thead>
+                                        <th>No.</th>
+                                        <th>Nama Tutor</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>No. Telpon</th>
+                                        <th style="text-align: center">Aksi</th>
+                                    </thead>
+                                    <tbody>
+                                        <% for (var i = 0; i < tutors.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
+                                            <td>
+                                                <%= tutors[i].nama %>
+                                            </td>
+                                            <td>
+                                                <%= tutors[i].jenisKelamin %>
+                                            </td>
+                                            <td>
+                                                <%= tutors[i].nomorHp %>
+                                            </td>
+                                            <td style="text-align: center">
+                                                <a class="btn btn-warning btn-xs"
+                                                    href="/admin/tutor/edit/<%= tutors[i].id %>">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                    Edit
+                                                </a>
+                                                <button class="btn btn-danger btn-xs"
+                                                    onclick="deleteTutor(`<%= tutors[i].id %>`)"
+                                                    data-id="<%= tutors[i].id %>">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab-input-tutor">
+                            <!-- form input tutor -->
+                            <form class="form-horizontal" action="/admin/tutor/create" method="post">
+                                <div class="box-body">
+                                    <div class="col-md-7">
+                                        <!-- Keterangan -->
+                                        <div class="form-group">
+                                            <div class="col-sm-12" style="margin-left: 24%; margin-right: 24%;">
+                                                <label class="col-sm-5 control-label">Input Data Tutor</label>
+                                            </div>
+                                        </div>
+                                        <!-- Username -->
+                                        <div class="form-group">
+                                            <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+
+                                            <div class="col-sm-10">
+                                                <input required name="username" type="text" class="form-control"
+                                                    id="inputUsername" placeholder="Username" />
+                                            </div>
+                                        </div>
+                                        <!-- password -->
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                                            <div class="col-sm-10">
+                                                <input required name="password" type="password" class="form-control"
+                                                    id="inputPassword" placeholder="Password" />
+                                            </div>
+                                        </div>
+                                        <!-- Nama -->
+                                        <div class="form-group">
+                                            <label for="inputNama" class="col-sm-2 control-label">Nama</label>
+
+                                            <div class="col-sm-10">
+                                                <input required name="nama" type="text" class="form-control" id="inputNama"
+                                                    placeholder="Nama" />
+                                            </div>
+                                        </div>
+                                        <!-- Jenis Kelamin -->
+                                        <div class="form-group">
+                                            <label for="inputJenisKelamin" class="col-sm-2 control-label">Jenis
+                                                Kelamin</label>
+
+                                            <div class="col-sm-10">
+                                                <select required name="jenisKelamin" class="form-control">
+                                                    <option value="">--- Pilih Jenis Kelamin ---</option>
+                                                    <option value="Pria">Pria</option>
+                                                    <option value="Wanita">Wanita</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- No. HP -->
+                                        <div class="form-group">
+                                            <label for="inputNoHp" class="col-sm-2 control-label">No. HP</label>
+
+                                            <div class="col-sm-10">
+                                                <input required name="nomorHp" type="number" class="form-control"
+                                                    id="inputNoHp" placeholder="Nomor HP" />
+                                            </div>
+                                        </div>
+                                        <!-- Email -->
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+
+                                            <div class="col-sm-10">
+                                                <input required name="email" type="email" class="form-control"
+                                                    id="inputEmail" placeholder="Email" />
+                                            </div>
+                                        </div>                                        
+                                    </div>  
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <div class="col-sm-12" style="margin-left: 24%; margin-right: 24%;">
+                                                <label class="col-sm-5 control-label">Input Keahlian Tutor</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">                                            
+                                            <div class="col-sm-12">
+                                                <input required name="keahlian[0]" type="text" class="form-control"
+                                                    placeholder="data keahlian 1" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">                                            
+                                            <div class="col-sm-12">
+                                                <input required name="keahlian[1]" type="text" class="form-control"
+                                                    placeholder="data keahlian 2" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">                                            
+                                            <div class="col-sm-12">
+                                                <input required name="keahlian[2]" type="text" class="form-control"
+                                                    placeholder="data keahlian 3" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">                                            
+                                            <div class="col-sm-12">
+                                                <input required name="keahlian[3]" type="text" class="form-control"
+                                                    placeholder="data keahlian 4" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">                                            
+                                            <div class="col-sm-12">
+                                                <input required name="keahlian[4]" type="text" class="form-control"
+                                                    placeholder="data keahlian 5" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">                                            
+                                            <div class="col-sm-12">
+                                                <input required name="keahlian[5]" type="text" class="form-control"
+                                                    placeholder="data keahlian 6" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary pull-left">
+                                        Simpan
+                                    </button>
+                                </div>
+                            </form>                
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- /.nav-tabs-custom -->
+                <% } else { %>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li><a href="#tab-edit-tutor" data-toggle="tab">Edit Tutor</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="tab-edit-tutor">
+                            <!-- form edit tutor -->
+                            <form class="form-horizontal" action="/admin/tutor/edit/<%= tutor.id %>" method="post">
+                                <div class="box-body">
+                                    <!-- Username -->
+                                    <div class="form-group">
+                                        <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="username" type="text" class="form-control"
+                                                id="inputUsername" value="<%= tutor.User.username %>" />
+                                        </div>
+                                    </div>
+                                    <!-- Nama -->
+                                    <div class="form-group">
+                                        <label for="inputNama" class="col-sm-2 control-label">Nama</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="nama" type="text" class="form-control" id="inputNama"
+                                                value="<%= tutor.nama %>" />
+                                        </div>
+                                    </div>
+                                    <!-- Jenis Kelamin -->
+                                    <div class="form-group">
+                                        <label for="inputJenisKelamin" class="col-sm-2 control-label">Jenis
+                                            Kelamin</label>
+
+                                        <div class="col-sm-10">
+                                            <select required name="jenisKelamin" class="form-control">
+                                                <option value="<%= tutor.jenisKelamin %>">--- <%= tutor.jenisKelamin %> ---
+                                                </option>
+                                                <option value="Pria">Pria</option>
+                                                <option value="Wanita">Wanita</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- No. HP -->
+                                    <div class="form-group">
+                                        <label for="inputNoHp" class="col-sm-2 control-label">No. HP</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="nomorHp" type="number" class="form-control"
+                                                id="inputNoHp" value="<%= tutor.nomorHp %>" />
+                                        </div>
+                                    </div>
+                                    <!-- Email -->
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+
+                                        <div class="col-sm-10">
+                                            <input required name="email" type="email" class="form-control"
+                                                id="inputEmail" value="<%= tutor.User.email %>" />
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary pull-left">
+                                            Simpan
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- /.nav-tabs-custom -->
+                <% } %>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.content-wrapper -->
+<%- include ../../templates/adminlte/footer.ejs %>
+<script>
+    $(document).ready(function () {
+        $("#tableTutorBBQ").DataTable();
+    });
+</script>
+
+<script type="text/javascript">
+    function deleteTutor(id) {
+        let idTutor = id;
+
+        swal({
+            title: "Yakin Ingin Menghapus Data Tutor ini?",
+            text: "Data yang dihapus, tidak bisa kembali lagi.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then(willDelete => {
+            if (willDelete) {
+                window.location.assign(`/admin/tutor/delete/${idTutor}`);
+            }
+        });
+    }    
+</script>
